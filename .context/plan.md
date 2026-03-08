@@ -1,6 +1,6 @@
 # Feature: Store + Types
 
-> **Note:** `project-info.md` lists field types as `text, email, number, textarea, select, checkbox, radio`. This plan expands to 10 field types with text subtypes. `project-info.md` should be updated separately to reflect this.
+> **Note:** `project-info.md` has been updated to reflect the expanded field types.
 
 ## Stack & Libraries
 
@@ -19,7 +19,8 @@ This feature has **no UI components**. It provides the foundational data layer t
 ```
 src/
 ├── types/
-│   └── field.ts              ← All field types, validations, discriminated union
+│   ├── field.ts              ← Field types, discriminated unions, FieldSchema
+│   └── fieldValidation.ts    ← Per-type validation shapes
 └── store/
     └── formStore.ts          ← Zustand store (state + actions)
 ```
@@ -59,7 +60,56 @@ src/
 
 ## Interfaces & Types
 
+### `src/types/fieldValidation.ts`
+
+Validation types live in a separate file. Each type is shaped for its field's Zod rules. Singular naming convention (`TextValidation`, not `TextValidations`).
+
+```typescript
+export type TextValidation = {
+  minLength?: number;
+  maxLength?: number;
+  pattern?: string;
+};
+
+export type NumberValidation = {
+  min?: number;
+  max?: number;
+};
+
+export type TextareaValidation = {
+  minLength?: number;
+  maxLength?: number;
+};
+
+export type CheckboxGroupValidation = {
+  minSelected?: number;
+  maxSelected?: number;
+};
+
+export type DateValidation = {
+  minDate?: string;
+  maxDate?: string;
+};
+
+export type FileValidation = {
+  maxSize?: number;
+  accept?: string[];
+};
+
+export type RangeValidation = {
+  min?: number;
+  max?: number;
+  step?: number;
+};
+```
+
+Fields with no additional validations beyond `required` use `Record<string, never>` inline. This includes: `email` subtype (Zod has `.email()`), `url` subtype (Zod has `.url()`), `select`, `radio`, `checkbox`, `switch`.
+
+---
+
 ### `src/types/field.ts`
+
+Imports validation types from `./fieldValidation`.
 
 #### Field Type Discriminant
 
@@ -92,44 +142,6 @@ export type FieldOption = {
 };
 ```
 
-#### Validation Types
-
-Each field type has a validation type shaped for its Zod rules. Only types with configurable validations get a named type. Fields with no additional validations beyond `required` use `Record<string, never>` inline.
-
-```typescript
-export type TextValidations = {
-  minLength?: number;
-  maxLength?: number;
-  pattern?: string;
-};
-
-export type TextareaValidations = {
-  minLength?: number;
-  maxLength?: number;
-};
-
-export type CheckboxGroupValidations = {
-  minSelected?: number;
-  maxSelected?: number;
-};
-
-export type DateValidations = {
-  minDate?: string;
-  maxDate?: string;
-};
-
-export type FileValidations = {
-  maxSize?: number;
-  accept?: string[];
-};
-
-export type RangeValidations = {
-  min?: number;
-  max?: number;
-  step?: number;
-};
-```
-
 #### Base Field Properties
 
 ```typescript
@@ -141,20 +153,66 @@ type BaseField = {
 };
 ```
 
-`BaseField` is **not exported**. It exists only as a composition helper inside `field.ts`.
+`BaseField` is **not exported**. Composition helper only.
 
-#### Field Variants (Discriminated Union Members)
+#### Text Field — Nested Discriminated Union
+
+`TextField` is itself a discriminated union on `subtype`. Each subtype gets the validation type appropriate for its Zod rules.
 
 ```typescript
-export type TextField = BaseField & {
+type TextBaseField = BaseField & {
   type: 'text';
-  subtype: TextSubtype;
-  validations: TextValidations;
 };
 
+export type PlainTextField = TextBaseField & {
+  subtype: 'text';
+  validations: TextValidation;
+};
+
+export type NumberTextField = TextBaseField & {
+  subtype: 'number';
+  validations: NumberValidation;
+};
+
+export type EmailTextField = TextBaseField & {
+  subtype: 'email';
+  validations: Record<string, never>;
+};
+
+export type PasswordTextField = TextBaseField & {
+  subtype: 'password';
+  validations: TextValidation;
+};
+
+export type TelTextField = TextBaseField & {
+  subtype: 'tel';
+  validations: TextValidation;
+};
+
+export type UrlTextField = TextBaseField & {
+  subtype: 'url';
+  validations: Record<string, never>;
+};
+
+export type TextField =
+  | PlainTextField
+  | NumberTextField
+  | EmailTextField
+  | PasswordTextField
+  | TelTextField
+  | UrlTextField;
+```
+
+`TextBaseField` is **not exported**. It exists only as a composition helper inside `field.ts`.
+
+**Why `Record<string, never>` for email/url?** Zod has built-in `.email()` and `.url()` — no configurable validation parameters needed from the user.
+
+#### Other Field Variants
+
+```typescript
 export type TextareaField = BaseField & {
   type: 'textarea';
-  validations: TextareaValidations;
+  validations: TextareaValidation;
 };
 
 export type SelectField = BaseField & {
@@ -177,22 +235,22 @@ export type CheckboxField = BaseField & {
 export type CheckboxGroupField = BaseField & {
   type: 'checkbox-group';
   options: FieldOption[];
-  validations: CheckboxGroupValidations;
+  validations: CheckboxGroupValidation;
 };
 
 export type DateField = BaseField & {
   type: 'date';
-  validations: DateValidations;
+  validations: DateValidation;
 };
 
 export type FileField = BaseField & {
   type: 'file';
-  validations: FileValidations;
+  validations: FileValidation;
 };
 
 export type RangeField = BaseField & {
   type: 'range';
-  validations: RangeValidations;
+  validations: RangeValidation;
 };
 
 export type SwitchField = BaseField & {
@@ -217,7 +275,11 @@ export type FieldSchema =
   | SwitchField;
 ```
 
-Discriminated on `type`. Narrowing example: `if (field.type === 'text') { field.subtype; /* accessible */ }`.
+Two levels of discrimination:
+- First: `field.type` narrows to the field kind.
+- Second (text only): `field.subtype` narrows to the specific text variant.
+
+Example: `if (field.type === 'text' && field.subtype === 'number') { field.validations.min; /* accessible */ }`.
 
 ---
 
@@ -301,35 +363,39 @@ All fields default to `required: false`. `placeholder` is not set (undefined) by
 ```
 src/
 ├── types/
-│   └── field.ts          [NEW] — FieldType, TextSubtype, FieldOption, validation types,
-│                                  field variants, FieldSchema union
+│   ├── fieldValidation.ts [NEW] — TextValidation, NumberValidation, TextareaValidation,
+│   │                              CheckboxGroupValidation, DateValidation, FileValidation,
+│   │                              RangeValidation
+│   └── field.ts           [NEW] — FieldType, TextSubtype, FieldOption, field variants,
+│                                   FieldSchema union
 └── store/
-    └── formStore.ts      [NEW] — FormState, FormActions, useFormStore
+    └── formStore.ts       [NEW] — FormState, FormActions, useFormStore
 ```
 
-**Total new files: 2**
+**Total new files: 3**
 
 ---
 
 ## Builder Rules
 
-1. Create `src/types/field.ts` first. The store depends on these types.
-2. Create `src/store/formStore.ts` second. Import types using `import type` from `../types/field`.
-3. Use `export type` for **all** type definitions. No `export interface`.
-4. `BaseField` is the only non-exported type. It is used internally for composition only.
-5. Use `crypto.randomUUID()` for ID generation. No external libraries.
-6. Store must use Zustand's `create` function. No middleware for this feature.
-7. The store type is `FormState & FormActions`. Pass this as the generic to `create<FormState & FormActions>()`.
-8. `selectedFieldId` stores the `id` string only, never the field object.
-9. Derive the selected field object in consuming components, never in the store.
-10. All actions must produce **new array references** (use spread, `filter`, `map`). Never mutate in place. Always pass a new object to `set()`. Never mutate the draft inside `set()`.
-11. Export `FormState` and `FormActions` types from `formStore.ts`.
-12. Export the store hook as `useFormStore`.
-13. The `updateField` implementation requires `as FieldSchema` assertion on the spread result. This is the only permitted type assertion in this feature.
-14. Do **not** create any UI components. This feature is data-layer only.
-15. Do **not** modify `App.tsx` or any existing file.
-16. Every export must be explicitly typed. No implicit `any`.
-17. Consuming files must use `import type` when importing types only.
+1. Create `src/types/fieldValidation.ts` first. Field types depend on these.
+2. Create `src/types/field.ts` second. Import validation types using `import type` from `./fieldValidation`.
+3. Create `src/store/formStore.ts` third. Import types using `import type` from `../types/field`.
+4. Use `export type` for **all** type definitions. No `export interface`.
+5. `BaseField` and `TextBaseField` are the only non-exported types. They are internal composition helpers.
+6. Use `crypto.randomUUID()` for ID generation. No external libraries.
+7. Store must use Zustand's `create` function. No middleware for this feature.
+8. The store type is `FormState & FormActions`. Pass this as the generic to `create<FormState & FormActions>()`.
+9. `selectedFieldId` stores the `id` string only, never the field object.
+10. Derive the selected field object in consuming components, never in the store.
+11. All actions must produce **new array references** (use spread, `filter`, `map`). Never mutate in place. Always pass a new object to `set()`. Never mutate the draft inside `set()`.
+12. Export `FormState` and `FormActions` types from `formStore.ts`.
+13. Export the store hook as `useFormStore`.
+14. The `updateField` implementation requires `as FieldSchema` assertion on the spread result. This is the only permitted type assertion in this feature.
+15. Do **not** create any UI components. This feature is data-layer only.
+16. Do **not** modify `App.tsx` or any existing file.
+17. Every export must be explicitly typed. No implicit `any`.
+18. Consuming files must use `import type` when importing types only.
 
 ---
 
@@ -350,7 +416,7 @@ src/
 
 ### Manual
 - After building, import `useFormStore` and the types into a scratch component or the browser console and confirm:
-  1. `addField('text')` creates a `TextField` with `subtype: 'text'`, `validations: {}`, auto-selects it.
+  1. `addField('text')` creates a `PlainTextField` with `subtype: 'text'`, `validations: {}`, auto-selects it.
   2. `addField('select')` creates a `SelectField` with `options: []`, `validations: {}`.
   3. `addField('range')` creates a `RangeField` with `validations: {}`.
   4. `removeField(id)` removes the correct field and clears selection if it was selected.
@@ -358,4 +424,5 @@ src/
   6. `reorderFields(0, 2)` moves the first field to the third position.
   7. `selectField(null)` clears the selection.
   8. `clearCanvas()` empties everything.
-  9. Type narrowing works: after checking `field.type === 'text'`, accessing `field.subtype` compiles.
+  9. First-level narrowing: `field.type === 'text'` gives access to `field.subtype`.
+  10. Second-level narrowing: `field.subtype === 'number'` gives access to `field.validations.min`.
