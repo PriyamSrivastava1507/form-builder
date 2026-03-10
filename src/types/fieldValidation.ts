@@ -1,9 +1,12 @@
+type LengthValidation = {
+    minLength?: number;  // Minimum character count allowed
+    maxLength?: number;  // Maximum character count allowed
+}
+
 /**
  * Validation rules for text-based input fields (text, password, tel).
  */
-export type TextValidation = {
-    minLength?: number;  // Minimum character count allowed
-    maxLength?: number;  // Maximum character count allowed
+export type TextValidation = LengthValidation & {
     pattern?: string;    // Regex pattern the value must match
 };
 
@@ -13,17 +16,14 @@ export type TextValidation = {
 export type NumberValidation = {
     min?: number;      // Minimum numeric value allowed
     max?: number;      // Maximum numeric value allowed
-    integer?: boolean; // Whether only whole numbers are accepted
-    positive?: boolean; // Whether only positive numbers are accepted
+    integer?: true; // Whether only whole numbers are accepted
+    positive?: true; // Whether only positive numbers are accepted
 };
 
 /**
  * Validation rules for textarea fields.
  */
-export type TextareaValidation = {
-    minLength?: number; // Minimum character count allowed
-    maxLength?: number; // Maximum character count allowed
-};
+export type TextareaValidation = LengthValidation;
 
 /**
  * Validation rules for checkbox-group fields.
@@ -45,15 +45,19 @@ export type DateValidation = {
  * Validation rules for file upload fields.
  */
 export type FileValidation = {
+    minSize?: number;   // Minimum file size in bytes
     maxSize?: number;   // Maximum file size in bytes
-    accept?: string[];  // Allowed MIME types or extensions (e.g. ['image/png', '.pdf'])
+    acceptMimeTypes?: string[];  // Allowed MIME types or extensions (e.g. ['image/png', '.pdf'])
+    acceptExtensions?: string[];  // Allowed file extensions (e.g. ['.png', '.pdf'])
 };
 
 /**
  * Validation rules for range (slider) fields.
  */
 export type RangeValidation = {
-    min?: number;  // Minimum slider value
-    max?: number;  // Maximum slider value
-    step?: number; // Increment between selectable values
+    min: number;  // Minimum slider value
+    max: number;  // Maximum slider value
+    step: number; // Increment between selectable values
 };
+
+export type NoValidation = Record<string, never>;

@@ -5,7 +5,8 @@ import type {
     CheckboxGroupValidation,
     DateValidation,
     FileValidation,
-    RangeValidation
+    RangeValidation,
+    NoValidation
 } from "./fieldValidation";
 
 /**
@@ -26,6 +27,7 @@ export type FieldType = 'text'
  * Subtypes available for the 'text' field type.
  * Each subtype maps to a different HTML input type.
  */
+// Utility type for external consumers referencing text subtypes
 export type TextSubtype = 'text'
     | 'email'
     | 'password'
@@ -49,7 +51,6 @@ type BaseField = {
     id: string;           // Unique identifier for the field
     label: string;        // Display label shown above the input
     required: boolean;    // Whether the field must be filled before submission
-    placeholder?: string; // Hint text shown inside the input when empty
 };
 
 /**
@@ -58,6 +59,7 @@ type BaseField = {
  */
 type TextBaseField = BaseField & {
     type: 'text';
+    placeholder?: string; // Hint text shown inside the input when empty
 }
 
 /**
@@ -66,6 +68,7 @@ type TextBaseField = BaseField & {
 export type PlainTextField = TextBaseField & {
     subtype: 'text';
     validations: TextValidation;
+    defaultValue?: string;
 }
 
 /**
@@ -74,6 +77,7 @@ export type PlainTextField = TextBaseField & {
 export type NumberTextField = TextBaseField & {
     subtype: 'number';
     validations: NumberValidation;
+    defaultValue?: number;
 }
 
 /**
@@ -82,7 +86,8 @@ export type NumberTextField = TextBaseField & {
  */
 export type EmailTextField = TextBaseField & {
     subtype: 'email';
-    validations: Record<string, never>;
+    validations: NoValidation;
+    defaultValue?: string;
 }
 
 /**
@@ -91,6 +96,7 @@ export type EmailTextField = TextBaseField & {
 export type PasswordTextField = TextBaseField & {
     subtype: 'password';
     validations: TextValidation;
+    defaultValue?: string;
 }
 
 /**
@@ -99,6 +105,7 @@ export type PasswordTextField = TextBaseField & {
 export type TelTextField = TextBaseField & {
     subtype: 'tel';
     validations: TextValidation;
+    defaultValue?: string;
 }
 
 /**
@@ -107,7 +114,8 @@ export type TelTextField = TextBaseField & {
  */
 export type UrlTextField = TextBaseField & {
     subtype: 'url';
-    validations: Record<string, never>;
+    validations: NoValidation;
+    defaultValue?: string;
 }
 
 /**
@@ -127,6 +135,8 @@ export type TextField = PlainTextField
 export type TextareaField = BaseField & {
     type: 'textarea';
     validations: TextareaValidation;
+    defaultValue?: string;
+    placeholder?: string;
 };
 
 /**
@@ -135,7 +145,8 @@ export type TextareaField = BaseField & {
 export type SelectField = BaseField & {
     type: 'select';
     options: FieldOption[];
-    validations: Record<string, never>;
+    validations: NoValidation;
+    defaultValue?: string;
 };
 
 /**
@@ -145,7 +156,8 @@ export type SelectField = BaseField & {
 export type RadioField = BaseField & {
     type: 'radio';
     options: FieldOption[];
-    validations: Record<string, never>;
+    validations: NoValidation;
+    defaultValue?: string;
 };
 
 /**
@@ -153,7 +165,8 @@ export type RadioField = BaseField & {
  */
 export type CheckboxField = BaseField & {
     type: 'checkbox';
-    validations: Record<string, never>;
+    validations: NoValidation;
+    defaultValue?: boolean;
 };
 
 /**
@@ -163,6 +176,7 @@ export type CheckboxGroupField = BaseField & {
     type: 'checkbox-group';
     options: FieldOption[];
     validations: CheckboxGroupValidation;
+    defaultValue?: string[];
 };
 
 /**
@@ -171,6 +185,7 @@ export type CheckboxGroupField = BaseField & {
 export type DateField = BaseField & {
     type: 'date';
     validations: DateValidation;
+    defaultValue?: string;
 };
 
 /**
@@ -187,6 +202,7 @@ export type FileField = BaseField & {
 export type RangeField = BaseField & {
     type: 'range';
     validations: RangeValidation;
+    defaultValue?: number;
 };
 
 /**
@@ -195,7 +211,8 @@ export type RangeField = BaseField & {
  */
 export type SwitchField = BaseField & {
     type: 'switch';
-    validations: Record<string, never>;
+    validations: NoValidation;
+    defaultValue?: boolean;
 };
 
 /**
