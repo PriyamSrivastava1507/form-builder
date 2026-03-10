@@ -1,3 +1,6 @@
+/**
+ * Shared length constraints reused by text-based validation types.
+ */
 type LengthValidation = {
     minLength?: number;  // Minimum character count allowed
     maxLength?: number;  // Maximum character count allowed
@@ -60,4 +63,8 @@ export type RangeValidation = {
     step: number; // Increment between selectable values
 };
 
+/**
+ * Empty validation type for fields that require no custom constraints
+ * (e.g. select, radio, checkbox, email, url, switch).
+ */
 export type NoValidation = Record<string, never>;
