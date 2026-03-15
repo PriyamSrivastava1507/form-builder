@@ -1,5 +1,9 @@
 import { Save, Eye, Undo2, Redo2, Form as FormIcon, Trash, Pen } from "lucide-react"
 
+/**
+ * @component
+ * Renders the top navigation bar with form builder actions (save, preview, undo/redo, etc.)
+ */
 const FormBuilderNav = () => {
   return (
     <header className="h-navbar w-full border-b-[1.5px] border-border pl-5 pr-9 py-4 flex justify-between items-center">

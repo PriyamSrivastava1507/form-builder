@@ -4,6 +4,10 @@ import FieldCanvas from "../components/FieldCanvas/FieldCanvas";
 import FieldPropertyPane from "../components/FieldPropertyPane/FieldPropertyPane";
 import { useFormStore } from "../store/form.store";
 
+/**
+ * @component
+ * Renders the main form builder interface, assembling the navigation, palette, canvas, and property panels
+ */
 const FormBuilderPage = () => {
   const addField = useFormStore(state => state.addField)
   return (

@@ -8,6 +8,11 @@ type FieldPaletteItemProps = {
     addField: (field: FieldSchema) => void;
 }
 
+/**
+ * @component
+ * @param {FieldPaletteItemProps} props - Component props
+ * Renders an individual draggable field item within the palette
+ */
 const FieldPaletteItem = ({ item, addField }: FieldPaletteItemProps) => {
   const handleClick: MouseEventHandler<HTMLButtonElement> = ()=>{
     const newField = createFieldFromDefaults(item.fieldConfig);

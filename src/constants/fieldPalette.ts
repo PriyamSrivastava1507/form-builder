@@ -1,6 +1,9 @@
 import { AtSign, Binary, CalendarDays, ChevronDownCircle, Disc, FileTypeCorner, Gauge, LayoutGrid, Link2, LockKeyhole, Phone, SquareCheck, ToggleLeft, Type, Upload } from "lucide-react";
 import type { FieldDefaults, PaletteGroupConfig } from "../types/palette";
 
+/**
+ * Grouped configuration of all available fields in the sidebar palette
+ */
 export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
     {
         label: "Text Inputs",
@@ -140,6 +143,9 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
     },
 ]
 
+/**
+ * Default properties applied to newly created fields based on their type
+ */
 export const FIELD_DEFAULTS: FieldDefaults = {
     text: {
         text: {

@@ -7,6 +7,11 @@ type FieldPaletteGroupProps = {
     addField: (field: FieldSchema) => void;
 }
 
+/**
+ * @component
+ * @param {FieldPaletteGroupProps} props - Component props
+ * Renders a specific category group of form fields in the palette
+ */
 const FieldPaletteGroup = ({ group, addField }: FieldPaletteGroupProps) => {
   const { label, items } = group;
   return (

@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
 
+// Primary application entry point that mounts the React app to the root DOM node
 const rootElement = document.getElementById('root') as HTMLElement;
 
 createRoot(rootElement).render(
