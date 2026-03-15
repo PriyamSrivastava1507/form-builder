@@ -1,7 +1,11 @@
-export const App = () => {
+import FormBuilderPage from "./pages/FormBuilderPage";
+
+const App = () => {
   return (
-    <div>
-      <h1>Form Builder</h1>
-    </div>
+    <>
+      <FormBuilderPage />
+    </>
   );
 };
+
+export default App;
