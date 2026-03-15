@@ -17,7 +17,7 @@ export type FieldType = 'text'
     | 'select'
     | 'radio'
     | 'checkbox'
-    | 'checkbox-group'
+    | 'checkboxGroup'
     | 'date'
     | 'file'
     | 'range'
@@ -173,7 +173,7 @@ export type CheckboxField = BaseField & {
  * Group of checkboxes allowing multiple selections.
  */
 export type CheckboxGroupField = BaseField & {
-    type: 'checkbox-group';
+    type: 'checkboxGroup';
     options: FieldOption[];
     validations: CheckboxGroupValidation;
     defaultValue?: string[];
