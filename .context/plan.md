@@ -1,99 +1,91 @@
-# Feature: Field Palette
+# Feature: Form Canvas
 
 ## Stack & Libraries
-
-React 19, TypeScript ~5.9, Tailwind CSS 4, Zustand 5, crypto.randomUUID()
+React 19, TypeScript ~5.9, Tailwind CSS 4, Zustand 5, crypto.randomUUID(), @dnd-kit/react, lucide-react, shadcn components
 
 ## Component Structure
-
 ```
 src/
 ├── pages/
-│   └── FormBuilderPage.tsx      (Layout Container, connects to Zustand store)
+│   └── FormBuilderPage.tsx         (Layout Container, renders FormCanvas in the <main> slot)
 └── components/
-    └── FieldPalette/
-        ├── FieldPalette.tsx       (maps FIELD_PALETTE_CONFIG into groups)
-        ├── FieldPaletteGroup.tsx  (renders a section label and its items)
-        └── FieldPaletteItem.tsx   (clickable button representing a field)
+    └── FormCanvas/
+        ├── index.ts                  (Exports FormCanvas)
+        ├── FormCanvas.tsx            (Connects to Zustand, sets up DragDropProvider)
+        └── FieldCanvasCard.tsx       (Presentational component rendering the field UI + useSortable hook)
 ```
 
 ## Data Flow
-
-1. `FormBuilderPage` is the only component that calls `useFormStore(state => state.addField)`.
-2. `FormBuilderPage` passes `addField` as a prop down to `FieldPalette`.
-3. `FieldPalette` maps `FIELD_PALETTE_CONFIG` into sections, rendering `FieldPaletteGroup`.
-4. `FieldPaletteGroup` maps its items, rendering `FieldPaletteItem`.
-5. `FieldPaletteItem` receives `label`, `fieldConfig`, and the `addField` callback as props.
-6. `FieldPaletteItem` click handler:
-   - Evaluates `fieldConfig` to do a map lookup inside `FIELD_DEFAULTS`.
-   - Generates a new unique `id` using `crypto.randomUUID()`.
-   - Merges the `id` with the returned schema object.
-   - Calls the `addField` prop with the fully constructed `FieldSchema`.
-
-There are NO store imports inside `FieldPalette` or `FieldPaletteItem`.
+1. `FormBuilderPage` allocates the center panel `<main>` to `FormCanvas`.
+2. `FormCanvas` connects directly to the Zustand store via `useFormStore` (e.g., `src/store/useFormStore`). It selects `fields`, `selectedId`, `updateField`, `removeField`, `setSelectedId`, `addField`, and `reorderFields`.
+3. If `fields` is empty, `FormCanvas` renders the empty state prompt: "Click any field from the left sidebar to add it here".
+4. If not empty, `FormCanvas` wraps the list in `@dnd-kit/react` `<DragDropProvider>`.
+   - The `onDragEnd` handler receives `{ source, target }` from event data.
+   - It converts `source.id` and `target.id` to array indices via `useFormStore.getState().fields.findIndex()`.
+   - It then calls `reorderFields(oldIndex, newIndex)`. Do NOT use arrayMove.
+5. `FormCanvas` maps over `fields` and renders a `FieldCanvasCard` for each, passing `field` and `index`.
+6. `FieldCanvasCard` invokes `useSortable({ id: field.id, index })` from `@dnd-kit/react/sortable`. `ref` goes to the root card element, and `handleRef` goes to the drag handle element only. `isDragging` is used for visual feedback.
+7. `FieldCanvasCard` receives:
+   - `field` (single FieldSchema)
+   - `index` (number)
+   - `isSelected` (boolean derived from `field.id === selectedId`)
+   - `onSelect`: calls `setSelectedId(field.id)`
+   - `onUpdate`: debounced function that calls `updateField(field.id, changes)`
+   - `onDelete`: calls `removeField(field.id)`
+   - `onDuplicate`: copies field, assigns new `crypto.randomUUID()`, calls `addField(copy)`, then reads `currentIndex` using `useFormStore.getState().fields` and calls `reorderFields(useFormStore.getState().fields.length - 1, currentIndex + 1)`.
+8. Store mutations flow back down instantly.
 
 ## Interfaces & Types
+No new domain types needed. We reuse `FieldSchema` from `src/types/field.ts`. Component props interfaces should be local to their respective files to enforce the boundary.
 
-These types should be co-located or put into `src/types/palette.ts`:
-
-```typescript
-import type { FieldType, TextSubtype, FieldSchema } from "./field";
-
-// Allows locating the default field schema in the FIELD_DEFAULTS map
-export type FieldConfigIdentifier =
-  | { type: "text"; subtype: TextSubtype }
-  | { type: Exclude<FieldType, "text"> };
-
-export type PaletteItemConfig = {
-  label: string; // Displayed in UI
-  icon?: string; // Inline SVG or Emoji
-  fieldConfig: FieldConfigIdentifier; // passed to FieldPaletteItem for lookup
-};
-
-export type PaletteGroupConfig = {
-  label: string; // E.g., "Text Inputs", "Choices"
-  items: PaletteItemConfig[];
-};
+```tsx
+interface FieldCanvasCardProps {
+  field: FieldSchema;
+  index: number;
+  isSelected: boolean;
+  onSelect: () => void;
+  onUpdate: (changes: Partial<Omit<FieldSchema, 'id' | 'type'>>) => void;
+  onDelete: () => void;
+  onDuplicate: () => void;
+}
 ```
 
 ## File Structure
-
-````
+```
 src/
-├── types/
-│   └── palette.ts               ← Contains Palette Types for config shape and default matching
-├── constants/
-│   └── fieldPalette.ts          ← Contains FIELD_PALETTE_CONFIG and FIELD_DEFAULTS
 ├── pages/
-│   └── FormBuilderPage.tsx      ← Connects to store
-```├── components/
-│   └── FieldPalette/
-│       ├── index.ts               ← Exports the FieldPalette component
-│       ├── FieldPalette.tsx       ← Group mapping
-│       ├── FieldPaletteGroup.tsx  ← Section header and items mapping
-│       └── FieldPaletteItem.tsx   ← Buttons doing map lookup and calling addField
-````
+│   └── FormBuilderPage.tsx               ← Update center slot to <FormCanvas />
+└── components/
+    └── FormCanvas/
+        ├── index.ts                      ← export default FormCanvas;
+        ├── FormCanvas.tsx                ← Zustand connection + DragDropProvider
+        └── FieldCanvasCard.tsx           ← Pure presentational card UI + useSortable
+```
 
 ## Builder Rules
-
-1. **Separation of Concerns:** Keep all constants (`FIELD_PALETTE_CONFIG`, `FIELD_DEFAULTS`) out of the components. Put them strictly in `src/constants/fieldPalette.ts`.
-2. **Prop Drilling:** Pass `addField` downwards from `FormBuilderPage`. Do not use `useFormStore` inside `FieldPalette` components.
-3. **FormBuilderPage Scope:** The page must ONLY render the `FieldPalette` on the left and two empty placeholder `<div>`s for the future Canvas and Properties Panel. Do not attempt to build out the center and right panels yet.
-4. **FieldPalette Sizing:** The palette must have a fixed width of `w-64`, stretch to full height, be vertically scrollable, and include a right border to visually separate it from the empty canvas area.
-5. **FIELD_PALETTE_CONFIG Groups:** Must be exactly these groups and order:
-   - "Text Inputs": Text, Number, Email, Password, Tel, URL, Textarea
-   - "Choices": Select, Radio, Checkbox, Checkbox Group
-   - "Date": Date
-   - "File": File
-   - "Advanced": Range, Switch
-6. **FIELD_DEFAULTS Values:** Every field must strictly contain: `required: false`, an empty `validations: {}` object, and a human-readable `label` (e.g. "Text Field", "Number Input"). Type-specific defaults: `select`, `radio`, and `checkbox-group` MUST have `options: []`. No field should have a `defaultValue` set here. Ensure this provides the exact nesting required (e.g., `FIELD_DEFAULTS.text.email`).
-7. **Id Generation:** Every newly added field must contain a unique `id` generated via `crypto.randomUUID()` within the `FieldPaletteItem` or `FieldPalette` click handler before calling `addField`.
-8. **Styling:** Use Tailwind CSS perfectly aligning with Google Forms aesthetics (minimalist, functional, clear).
-9. **Type Completeness:** Ensure TypeScript handles the discriminated union in the map lookup cleanly.
-10. **Components:** All components must be pure functional React components. No classes. No any types. Single responsibility strictly enforced.
+1. **Separation of Concerns:** `FieldCanvasCard` must NEVER import Zustand or `useFormStore`. It receives purely props. `FormCanvas` is the only component in this folder that connects to the store.
+2. **Event Propagation:** Do NOT call `e.stopPropagation()` on inline text inputs (Label, Placeholder). Clicking an input MUST bubble up to the card's `onClick` to set `selectedId` (matching Google Forms selection behavior). `e.stopPropagation()` is ONLY needed on the Delete and Duplicate buttons so they don't trigger context selection.
+3. **Selection:** The card is selected by clicking anywhere on it, including its inputs. Focusing inputs via keyboard does NOT set the `selectedId`; selection is driven strictly by the card's `onClick`.
+4. **Debouncing:** Label and placeholder inline edits must be debounced before invoking `onUpdate`. Required toggle invokes `onUpdate` immediately. Since external libraries like `lodash` are forbidden, implement your own debounce mechanism (e.g., via `setTimeout` in a custom hook or utility function).
+5. **Placeholder Render Condition:** The Placeholder inline input on the card must ONLY be rendered if the `field` object natively supports it (e.g., `'placeholder' in field`). Verify via the FieldSchema discriminated union.
+6. **Card Content Strictness:** Do NOT render the `defaultValue` or `validations` on this card. They belong to the Properties Panel. Do NOT render the field `id` anywhere visible to the user.
+7. **Type/Subtype Indicator:** Display a read-only plain text label indicating the type and subtype at the top of the card (display only, e.g., "text / email" or "select").
+8. **Duplication Implementation:** To avoid a race condition, implement duplication by passing a callback from `FormCanvas` that reads fresh state at call time:
+   ```ts
+   const copy = { ...field, id: crypto.randomUUID() };
+   addField(copy);
+   const currentIndex = useFormStore.getState().fields.findIndex(f => f.id === field.id);
+   reorderFields(useFormStore.getState().fields.length - 1, currentIndex + 1);
+   ```
+9. **Empty State:** If `fields.length === 0`, show exactly the text "Click any field from the left sidebar to add it here" centered in the canvas.
+10. **Drag Handle:** Use `@dnd-kit/react` hook `useSortable`. The `ref` goes on the root card element. The `handleRef` goes on the drag handle element only. This is critical to prevent dragging when interacting with text inputs.
+11. **Config UI Only:** `FieldCanvasCard` renders schema configuration elements only: a text input to edit the `label` string, a text input to edit the `placeholder` string (where applicable), a toggle for the `required` boolean, and the Type/subtype as a plain text label. It does NOT render the actual form input for the field type (no `<input type="date">`, no `<select>`, no calendar). That is the Live Preview's job.
+12. **Icons:** Use ONLY `lucide-react` for the Drag Handle, Duplicate, and Delete icons.
+13. **Card Layout:** Layout must match the Google Forms aesthetic. Drag handle is centered at the very top. The label input is a prominent borderless heading. The placeholder input (if applicable) sits below it. A footer row contains the duplicate button, delete button, and required toggle aligned to the right. The type/subtype indicator is a subtle plain text label at the top right of the card.
+14. **Properties Panel connection:** Ensure `selectedId` is set in the store via `setSelectedId(field.id)`. The Properties Panel itself is out of scope for this task—just maintain the `selectedId` correctness.
 
 ## Constraints
-
-- Do NOT use plain JavaScript, CSS-in-JS, or `.css` files.
-- Do NOT rewrite or mix up the store behavior; align with `src/store/form.store.ts` `FormStore.addField` returning nothing and taking a full `FieldSchema`.
-- Follow the defined schema properties for every default `FieldSchema` generated (from `src/types/field.ts`).
+- **NO ANY TYPE:** Provide strictly typed interfaces for all props and events.
+- **NO CSS-in-JS:** Use Tailwind CSS exclusively for styling.
+- **NO EXTERNAL LIBRARIES:** Use `crypto.randomUUID()` for IDs. Use `@dnd-kit/react` (new API). ONLY the predefined `FieldSchema` union can be used. Use `lucide-react` for icons. Shadcn components are allowed. Do NOT use external utility libraries like `lodash` for debouncing.
+- **DESKTOP ONLY:** Do not write responsive classes (e.g. `md:`, `lg:`); target desktop layout only.

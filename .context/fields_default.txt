@@ -1,0 +1,144 @@
+const fields = [
+  // TEXT VARIANTS
+  {
+    id: "390fe2ce",
+    type: "text",
+    subtype: "text",
+    label: "Text",
+    placeholder: "",
+    defaultValue: "",
+    required: false,
+    validations: {}
+  },
+  {
+    id: "7e2303a6",
+    type: "text",
+    subtype: "number",
+    label: "Number",
+    placeholder: "",
+    defaultValue: 0,
+    required: false,
+    validations: {}
+  },
+  {
+    id: "34224b17",
+    type: "text",
+    subtype: "email",
+    label: "Email",
+    placeholder: "",
+    defaultValue: "",
+    required: false,
+    validations: {}
+  },
+  {
+    id: "3cfc818f",
+    type: "text",
+    subtype: "password",
+    label: "Password",
+    placeholder: "",
+    defaultValue: "",
+    required: false,
+    validations: {}
+  },
+  {
+    id: "f9f16fe3",
+    type: "text",
+    subtype: "tel",
+    label: "Tel",
+    placeholder: "",
+    defaultValue: "",
+    required: false,
+    validations: {}
+  },
+  {
+    id: "698a2510",
+    type: "text",
+    subtype: "url",
+    label: "URL",
+    placeholder: "",
+    defaultValue: "",
+    required: false,
+    validations: {}
+  },
+
+  // OTHER FIELD TYPES
+  {
+    id: "080fc49b",
+    type: "textarea",
+    label: "Textarea",
+    placeholder: "",
+    defaultValue: "",
+    required: false,
+    validations: {}
+  },
+  {
+    id: "5bb4319d",
+    type: "select",
+    label: "Select",
+    options: [],
+    defaultValue: "",
+    required: false,
+    validations: {}
+  },
+  {
+    id: "301be120",
+    type: "radio",
+    label: "Radio",
+    options: [],
+    defaultValue: "",
+    required: false,
+    validations: {}
+  },
+  {
+    id: "c4f9baa1",
+    type: "checkbox",
+    label: "Checkbox",
+    defaultValue: false,
+    required: false,
+    validations: {}
+  },
+  {
+    id: "302cf652",
+    type: "checkboxGroup",
+    label: "Checkbox Group",
+    options: [],
+    defaultValue: [],
+    required: false,
+    validations: {}
+  },
+  {
+    id: "b0fa824d",
+    type: "date",
+    label: "Date",
+    defaultValue: "",
+    required: false,
+    validations: {}
+  },
+  {
+    id: "1ab96d9f",
+    type: "file",
+    label: "File",
+    required: false,
+    validations: {}
+  },
+  {
+    id: "2cd6850f",
+    type: "range",
+    label: "Range",
+    defaultValue: 0,
+    required: false,
+    validations: {
+      min: 0,
+      max: 100,
+      step: 1
+    }
+  },
+  {
+    id: "a790d724",
+    type: "switch",
+    label: "Switch",
+    defaultValue: false,
+    required: false,
+    validations: {}
+  }
+];

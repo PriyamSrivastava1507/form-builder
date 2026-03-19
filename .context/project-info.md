@@ -81,27 +81,24 @@ None planned. MVP scope is final.
 
 ## Tech Stack
 
-| Layer         | Technology      | Version | Why Chosen                                             |
-| ------------- | --------------- | ------- | ------------------------------------------------------ |
-| Framework     | React           | 19      | Industry standard, target user's primary framework     |
-| Language      | TypeScript      | latest  | Type safety, portfolio quality, industry expectation   |
-| Styling       | Tailwind CSS    | 4       | Utility-first, fast iteration, no CSS files needed     |
+| Layer         | Technology      | Version | Why Chosen                                              |
+| ------------- | --------------- | ------- | ------------------------------------------------------- |
+| Framework     | React           | 19      | Industry standard, target user's primary framework      |
+| Language      | TypeScript      | latest  | Type safety, portfolio quality, industry expectation    |
+| Styling       | Tailwind CSS    | 4       | Utility-first, fast iteration, no CSS files needed      |
 | State         | Zustand         | 5       | Minimal boilerplate, schema-driven store fits perfectly |
-| Validation    | Zod             | latest  | TypeScript-first schema validation, pairs with RHF     |
-| Forms         | React Hook Form | latest  | Output target — generated code uses RHF                |
-| Drag and Drop | dnd-kit         | latest  | Modern, accessible, React-native DnD solution          |
+| Validation    | Zod             | latest  | TypeScript-first schema validation, pairs with RHF      |
+| Forms         | React Hook Form | latest  | Output target — generated code uses RHF                 |
+| Drag and Drop | dnd-kit         | latest  | Modern, accessible, React-native DnD solution           |
 | Build         | Vite            | 7       | Fast dev server, fast builds, modern defaults           |
 
 ## Approved Libraries
-
-React, TypeScript, Tailwind CSS, Zustand, Zod, dnd-kit, React Hook Form, Vite
+React, TypeScript, Tailwind CSS, Zustand, Zod, dnd-kit, React Hook Form, Vite, lucide-react, shadcn components
 
 ## Forbidden Libraries
-
 - **Any CSS-in-JS library:** Tailwind is the only styling solution.
 - **Any external UUID library:** Use `crypto.randomUUID()`.
 - **Any backend or server framework:** Frontend only.
-- **Any external icon library:** Use inline SVG or emoji.
 
 ---
 
@@ -224,7 +221,6 @@ Google Forms — simple card-based layout, clean field representation, minimal c
 - Never use CSS-in-JS or CSS files.
 - Never use class components.
 - Never use external UUID libraries.
-- Never use external icon libraries.
 - Never use `any` type.
 - Never mix business logic with UI components.
 

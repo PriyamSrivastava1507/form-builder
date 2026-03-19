@@ -1,4 +1,4 @@
-import { Save, Eye, Undo2, Redo2, Form as FormIcon, Trash, Pen } from "lucide-react"
+import { Save, Eye, Undo2, Redo2, Form as FormIcon, Trash, Pen, RefreshCcw } from "lucide-react"
 
 /**
  * @component
@@ -25,6 +25,9 @@ const FormBuilderNav = () => {
         </button>
         <button type="button" aria-label="Redo" className="block p-2 text-foreground-muted hover:text-primary-secondary hover:bg-primary/20 hover:scale-105 active:scale-95 transition-all border border-border hover:border-primary/25 rounded-md">
           <Redo2 className="size-5" strokeWidth={2} />
+        </button>
+        <button type="button" aria-label="Reset" className="block p-2 text-foreground-muted hover:text-primary-secondary hover:bg-primary/20 hover:scale-105 active:scale-95 transition-all border border-border hover:border-primary/25 rounded-md">
+          <RefreshCcw className="size-5" strokeWidth={2} />
         </button>
         <button type="button" aria-label="Delete" className="block p-2 text-foreground-muted hover:text-destructive hover:bg-destructive/10 hover:scale-105 active:scale-95 transition-all border border-border hover:border-destructive/15 rounded-md">
           <Trash className="size-5" strokeWidth={2} />
