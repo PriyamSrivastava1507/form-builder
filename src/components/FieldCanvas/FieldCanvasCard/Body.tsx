@@ -42,10 +42,10 @@ const Body = ({field, onUpdate}: BodyProps) => {
 
   return (
     <div className="flex-1 w-[95%] px-2 py-2 border-b-[1.5px] border-border/60">
-        <label htmlFor={field.id} className="text-foreground-muted text-sm">Label Name:</label>
+        <label htmlFor={field.id + "-label"} className="text-foreground-muted text-sm">Label Name:</label>
         <input 
             type="text" 
-            id={field.id} 
+            id={field.id + "-label"} 
             value={localLabel} 
             placeholder="Untitled Label" 
             onChange={handleLabelChange} 
