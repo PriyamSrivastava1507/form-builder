@@ -1,3 +1,4 @@
+import { useFormStore } from "@/store/form.store";
 import { Save, Eye, Undo2, Redo2, Form as FormIcon, Trash, Pen, RefreshCcw } from "lucide-react"
 
 /**
@@ -5,6 +6,7 @@ import { Save, Eye, Undo2, Redo2, Form as FormIcon, Trash, Pen, RefreshCcw } fro
  * Renders the top navigation bar with form builder actions (save, preview, undo/redo, etc.)
  */
 const FormBuilderNav = () => {
+  const fields = useFormStore((state) => state.fields);
   return (
     <header className="h-navbar w-full border-b-[1.5px] border-border pl-5 pr-9 py-4 flex justify-between items-center">
       <div className="flex gap-4 items-center">
@@ -34,7 +36,7 @@ const FormBuilderNav = () => {
         </button>
         <button type="button" aria-label="Generate Form" className="flex items-center gap-2 px-4 py-2 text-foreground bg-primary hover:bg-primary/80 hover:scale-105 active:scale-95 transition-all rounded-md">
           <Pen className="size-4" strokeWidth={2.5} />
-          <span className="text-sm font-medium">Generate Form</span>
+          <span className="text-sm font-medium" onClick={()=>console.log(fields)}>Generate Form</span>
         </button>
       </div>
     </header>
