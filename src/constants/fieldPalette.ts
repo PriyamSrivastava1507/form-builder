@@ -1,5 +1,25 @@
 import { AtSign, Binary, CalendarDays, ChevronDownCircle, Disc, FileTypeCorner, Gauge, LayoutGrid, Link2, LockKeyhole, Phone, SquareCheck, ToggleLeft, Type, Upload } from "lucide-react";
-import type { FieldDefaults, PaletteGroupConfig } from "../types/palette";
+import type { FieldDefaults, FieldIcons, PaletteGroupConfig } from "../types/palette";
+
+export const FIELD_ICONS: FieldIcons = {
+    text: {
+        text: Type,
+        number: Binary,
+        email: AtSign,
+        password: LockKeyhole,
+        tel: Phone,
+        url: Link2,
+    },
+    textarea: FileTypeCorner,
+    select: ChevronDownCircle,
+    radio: Disc,
+    checkbox: SquareCheck,
+    checkboxGroup: LayoutGrid,
+    date: CalendarDays,
+    file: Upload,
+    range: Gauge,
+    switch: ToggleLeft,
+}
 
 /**
  * Grouped configuration of all available fields in the sidebar palette
@@ -10,7 +30,7 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
         items: [
             {
                 label: "Text",
-                icon: Type,
+                icon: FIELD_ICONS.text.text,
                 fieldConfig: {
                     type: "text",
                     subtype: "text",
@@ -18,7 +38,7 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
             },
             {
                 label: "Number",
-                icon: Binary,
+                icon: FIELD_ICONS.text.number,
                 fieldConfig: {
                     type: "text",
                     subtype: "number",
@@ -26,7 +46,7 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
             },
             {
                 label: "Email",
-                icon: AtSign,
+                icon: FIELD_ICONS.text.email,
                 fieldConfig: {
                     type: "text",
                     subtype: "email",
@@ -34,7 +54,7 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
             },
             {
                 label: "Password",
-                icon: LockKeyhole,
+                icon: FIELD_ICONS.text.password,
                 fieldConfig: {
                     type: "text",
                     subtype: "password",
@@ -42,7 +62,7 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
             },
             {
                 label: "Tel",
-                icon: Phone,
+                icon: FIELD_ICONS.text.tel,
                 fieldConfig: {
                     type: "text",
                     subtype: "tel",
@@ -50,7 +70,7 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
             },
             {
                 label: "URL",
-                icon: Link2,
+                icon: FIELD_ICONS.text.url,
                 fieldConfig: {
                     type: "text",
                     subtype: "url",
@@ -58,7 +78,7 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
             },
             {
                 label: "Textarea",
-                icon: FileTypeCorner,
+                icon: FIELD_ICONS.textarea,
                 fieldConfig: {
                     type: "textarea",
                 }
@@ -70,28 +90,28 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
         items: [
             {
                 label: "Select",
-                icon: ChevronDownCircle,
+                icon: FIELD_ICONS.select,
                 fieldConfig: {
                     type: "select",
                 }
             },
             {
                 label: "Radio",
-                icon: Disc,
+                icon: FIELD_ICONS.radio,
                 fieldConfig: {
                     type: "radio",
                 }
             },
             {
                 label: "Checkbox",
-                icon: SquareCheck,
+                icon: FIELD_ICONS.checkbox,
                 fieldConfig: {
                     type: "checkbox",
                 }
             },
             {
                 label: "Checkbox Group",
-                icon: LayoutGrid,
+                icon: FIELD_ICONS.checkboxGroup,
                 fieldConfig: {
                     type: "checkboxGroup",
                 }
@@ -103,7 +123,7 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
         items: [
             {
                 label: "Date",
-                icon: CalendarDays,
+                icon: FIELD_ICONS.date,
                 fieldConfig: {
                     type: "date",
                 }
@@ -115,7 +135,7 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
         items: [
             {
                 label: "File",
-                icon: Upload,
+                icon: FIELD_ICONS.file,
                 fieldConfig: {
                     type: "file",
                 }
@@ -127,14 +147,14 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
         items: [
             {
                 label: "Range",
-                icon: Gauge,
+                icon: FIELD_ICONS.range,
                 fieldConfig: {
                     type: "range",
                 }
             },
             {
                 label: "Switch",
-                icon: ToggleLeft,
+                icon: FIELD_ICONS.switch,
                 fieldConfig: {
                     type: "switch",
                 }
@@ -274,3 +294,5 @@ export const FIELD_DEFAULTS: FieldDefaults = {
         validations: {}
     }
 };
+
+
