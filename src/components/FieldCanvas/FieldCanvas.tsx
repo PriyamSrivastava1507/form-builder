@@ -1,7 +1,9 @@
 import { DragDropProvider } from "@dnd-kit/react";
 import { useFormStore } from "../../store/form.store";
 import type { FieldSchema } from "../../types/field";
-import FieldCanvasCard from "./FieldCanvasCard";
+import FieldCanvasCard from "./FieldCanvasCard/FieldCanvasCard";
+import { isSortable } from '@dnd-kit/react/sortable';
+import type { DistributiveOmit } from "@/types/palette";
 
 /**
  * @component
@@ -18,7 +20,21 @@ const FieldCanvas = () => {
 
   return (
    <main className="flex-1 h-full border-r border-border py-10 px-15 overflow-y-auto scrollbar-custom">
-      <DragDropProvider>
+      <DragDropProvider
+        onDragEnd={(event) => {
+          if (event.canceled) return;
+
+          const { source } = event.operation;
+
+          if (isSortable(source)) {
+            const { initialIndex, index } = source;
+
+            if (initialIndex !== index) {
+              reorderFields(initialIndex, index);
+            }
+          }
+        }}
+      >
         <div className="flex flex-col gap-8 items-center">
           {fields.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full">
@@ -32,7 +48,7 @@ const FieldCanvas = () => {
                 index={index}
                 isSelected={field.id === selectedId}
                 onSelect={() => setSelectedId(field.id)}
-                onUpdate={(changes: Partial<Omit<FieldSchema, 'id' | 'type'>>) => updateField(field.id, changes)}
+                onUpdate={(changes: Partial<DistributiveOmit<FieldSchema, 'id' | 'type'>>) => updateField(field.id, changes)}
                 onDelete={() => removeField(field.id)}
                 onDuplicate={() => {
                   const copy = { ...field, id: crypto.randomUUID() };
