@@ -6,7 +6,7 @@ import type { FieldSchema, FieldType, TextField, TextSubtype } from "./field";
  * Standard Omit collapses a union to only the shared keys;
  * this applies Omit to each member individually.
  */
-type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
+export type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
 
 /**
  * Identifies a field configuration using its type and optional subtype
@@ -40,4 +40,9 @@ export type PaletteGroupConfig = {
  */
 export type FieldDefaults = Record<Exclude<FieldType, 'text'>, DistributiveOmit<FieldSchema, 'id'>> & {
     text: Record<TextSubtype, DistributiveOmit<TextField, 'id'>> // Special handling for text subtypes
+}
+
+
+export type FieldIcons = Record<Exclude<FieldType, 'text'>, LucideIcon> & {
+  text: Record<TextSubtype, LucideIcon>
 }
