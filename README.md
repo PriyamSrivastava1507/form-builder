@@ -6,7 +6,7 @@ Form Builder is an advanced, visual drag-and-drop utility designed specifically 
 
 ## Features
 
-- **Visual Form Canvas**: A highly interactive, strictly typed drag-and-drop workspace using `@dnd-kit`. 
+- **Visual Form Canvas**: A highly interactive, strictly typed drag-and-drop workspace using `@dnd-kit`.
 - **Real-Time Code Generation**: Instantly produces valid React Hook Form markup (`useForm`, `<Controller>`, `register` calls).
 - **Zod Schema Generation**: Automatically infers and constructs Zod validation schemas based on field types, validations (e.g., max length, patterns), and required states.
 - **Comprehensive Field Types**:
@@ -40,17 +40,20 @@ Ensure you have Node.js (v20+) installed. The project relies on recent Node and 
 ### Installation
 
 1. **Clone the repository:**
+
    ```bash
    git clone <repository_url>
    cd form-generator
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 3. **Start the development server:**
+
    ```bash
    npm run dev
    ```
@@ -105,6 +108,7 @@ At the heart of the Form Builder is an explicit separation between the **Visual 
 The application state manages an ordered array of `FieldSchema` objects. Each schema represents a discriminated union type (e.g., `TextField`, `SelectField`), making it impossible to represent an invalid state inside the store.
 
 **Store Architecture**
+
 ```text
 [ FormStore (Zustand) ]
  │
@@ -124,13 +128,14 @@ The application state manages an ordered array of `FieldSchema` objects. Each sc
      └── setSelectedField()         (Changes active property panel focus)
 ```
 
- Mutations to this store are strictly controlled via actions. Partial updates use distributive omission to ensure that updating properties on a specific field subtype strictly respects TypeScript narrowed typing.
+Mutations to this store are strictly controlled via actions. Partial updates use distributive omission to ensure that updating properties on a specific field subtype strictly respects TypeScript narrowed typing.
 
 ### 2. Data Model (`FieldSchema`)
 
 The entire form state is represented by an array of uniquely identifiable field configurations. The model relies heavily on a discriminated union.
 
 **Model Architecture**
+
 ```text
 [ FieldSchema ] (Discriminated Union on 'type')
  │
@@ -163,10 +168,13 @@ The entire form state is represented by an array of uniquely identifiable field 
 Because building complex forms is an iterative process, `zundo` wraps the Zustand store. It is configured to capture diffs of the `fields` array only.
 
 ```typescript
-export const useFormStore = create<FormStore>()(temporal(createFormStore, {
-  partialize: (state) => ({ fields: state.fields }),
-}));
+export const useFormStore = create<FormStore>()(
+  temporal(createFormStore, {
+    partialize: (state) => ({ fields: state.fields }),
+  }),
+);
 ```
+
 This isolates the permanent schematic data from transient UI states (like `selectedId`), preventing an undo action from accidentally changing panel focus without reverting the schema.
 
 ### 4. Drag and Drop Interaction
@@ -175,16 +183,23 @@ The workspace (`FormCanvas`) mounts `@dnd-kit`'s context to enable vertical list
 
 ```typescript
 // Conceptual reordering approach
-reorderFields: (fromIndex, toIndex) => set((state) => {
-  const newFields = [...state.fields];
-  const [movedField] = newFields.splice(fromIndex, 1);
-  newFields.splice(toIndex, 0, movedField);
-  return { fields: newFields };
-})
+reorderFields: (fromIndex, toIndex) =>
+  set((state) => {
+    const newFields = [...state.fields];
+    const [movedField] = newFields.splice(fromIndex, 1);
+    newFields.splice(toIndex, 0, movedField);
+    return { fields: newFields };
+  });
 ```
 
 ### 5. Code Generation Engine
 
 When the user requests the final code, the generator iterates over the `fields` array.
+
 1. **Zod Generation:** Looks at the `FieldSchema.validations` and `required` boolean. It maps strings to `z.string()`, numbers to `z.coerce.number()`, and injects custom error messages.
 2. **React Generation:** Constructs markup, wrapping inputs in `react-hook-form`'s `<Controller>` (for complex inputs like Select and Radio) or direct `register` passes for standard primitives.
+
+### 6. Progress Screenshots
+
+![Form Builder Page UI](screenshots/formBuilder.png)
+![Form Builder Page UI - Active Field](screenshots/formBuilder-act.png)
