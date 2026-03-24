@@ -2,6 +2,7 @@ import { create, type StateCreator } from "zustand";
 import { temporal } from "zundo";
 
 import type { FieldSchema } from "../types/field";
+import type { DistributiveOmit } from "@/types/palette";
 
 /**
  * Represents the state and actions for the form builder store.
@@ -41,7 +42,7 @@ export type FormStore = {
    * @param {string} id - ID of the field to update
    * @param {Partial<Omit<FieldSchema, 'id' | 'type'>>} changes - Properties to merge
    */
-  updateField: (id: string, changes: Partial<Omit<FieldSchema, 'id' | 'type'>>) => void;
+  updateField: (id: string, changes: Partial<DistributiveOmit<FieldSchema, 'id' | 'type'>>) => void;
 
   /**
    * Moves a field from one position to another using splice-based reorder.
