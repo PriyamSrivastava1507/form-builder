@@ -12,11 +12,13 @@ export const createFieldFromDefaults = (fieldIdentifier: FieldConfigIdentifier):
     if (fieldIdentifier.type === "text") {
         return {
             id: crypto.randomUUID(),
-            ...FIELD_DEFAULTS.text[fieldIdentifier.subtype]
+            ...FIELD_DEFAULTS.text[fieldIdentifier.subtype],
+            label: ""
         };
     }
     return {
         id: crypto.randomUUID(),
-        ...FIELD_DEFAULTS[fieldIdentifier.type]
+        ...FIELD_DEFAULTS[fieldIdentifier.type],
+        label: ""
     };
 };
