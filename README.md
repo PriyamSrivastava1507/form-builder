@@ -201,5 +201,8 @@ When the user requests the final code, the generator iterates over the `fields` 
 
 ### 6. Progress Screenshots
 
+Form Builder Page UI :
 ![Form Builder Page UI](screenshots/formBuilder.png)
+
+Form Builder Page UI - Active Field :
 ![Form Builder Page UI - Active Field](screenshots/formBuilder-act.png)
