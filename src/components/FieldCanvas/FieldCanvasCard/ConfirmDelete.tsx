@@ -1,12 +1,39 @@
+import { useEffect, useRef } from "react";
+
 type ConfirmDeleteProps = {
     setConfirmDelete: (confirmDelete: boolean) => void;
     onDelete: () => void;
 }
 
 const ConfirmDelete = ({setConfirmDelete, onDelete}: ConfirmDeleteProps) => {
-  return (
+    const onDeleteRef = useRef(onDelete);
+    const setConfirmDeleteRef = useRef(setConfirmDelete);
+
+    // eslint-disable-next-line react-hooks/refs
+    onDeleteRef.current = onDelete;
+    // eslint-disable-next-line react-hooks/refs
+    setConfirmDeleteRef.current = setConfirmDelete;
+
+    useEffect(()=>{
+        const handleKeyboardEvents = (e:KeyboardEvent)=>{
+            if(e.key==="Enter"){
+                e.preventDefault();
+                onDeleteRef.current();
+            }else if(e.key==="Escape"){
+                e.preventDefault();
+                setConfirmDeleteRef.current(false);
+            }
+            e.stopPropagation();
+        };
+
+        document.addEventListener("keydown",handleKeyboardEvents);
+        return ()=>{
+            document.removeEventListener("keydown",handleKeyboardEvents);
+        }
+    },[])
+    return (
     <div className="w-full flex items-center justify-between gap-2 px-3 py-2">
-        <span className="text-foreground-secondary text-xs tracking-wider ml-3">
+        <span className="text-foreground/80 text-xs tracking-wider ml-3">
             Are you sure you want to delete this field?
         </span>
         <div className="flex items-center gap-3 mr-3">
