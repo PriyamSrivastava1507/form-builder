@@ -7,6 +7,13 @@ type PlaceholderInputProps = {
 }
 
 const PlaceholderInput = ({field, localPlaceholder, handlePlaceholderChange}: PlaceholderInputProps) => {
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>)=>{
+    if(e.key==="Escape"){
+      const card = e.currentTarget.closest('[data-field-id]') as HTMLElement | null;
+      card?.focus();
+    }
+  }
+
   return (
     <div>
       <input 
@@ -15,7 +22,8 @@ const PlaceholderInput = ({field, localPlaceholder, handlePlaceholderChange}: Pl
         aria-label="Placeholder" 
         value={localPlaceholder} 
         placeholder="Untitled Placeholder" 
-        onChange={handlePlaceholderChange} 
+        onChange={handlePlaceholderChange}
+        onKeyDown={onKeyDown}
         className="pl-1.5 pr-1 pt-1 pb-px mt-2 rounded-sm border-b-2 border-transparent bg-surface-overlay/60 outline-none text-foreground/80 text-base placeholder:text-foreground/60 hover:bg-surface-overlay/50 hover:border-b-2 hover:border-primary/50
         focus:bg-surface-overlay/50 focus:border-b-2 focus:border-primary/50 transition-all duration-200" 
       />
