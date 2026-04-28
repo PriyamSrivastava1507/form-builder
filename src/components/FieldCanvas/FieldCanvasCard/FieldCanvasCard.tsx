@@ -1,9 +1,7 @@
 import { useSortable } from "@dnd-kit/react/sortable";
 import type { FieldSchema } from "../../../types/field"
-import { RestrictToElement } from "@dnd-kit/dom/modifiers";
-import { RestrictToVerticalAxis } from "@dnd-kit/abstract/modifiers";
 import DragHandle from "./DragHandle";
-import Body from "./Body";
+import Body from "./Body/Body";
 import ToolBar from "./ToolBar";
 import { useState } from "react";
 import ConfirmDelete from "./ConfirmDelete";
@@ -25,15 +23,35 @@ const FieldCanvasCard = ({field, index, isSelected, onSelect, onUpdate, onDelete
     
     const { ref, handleRef, isDragging } = useSortable({
         id: field.id, 
-        index,
-        modifiers: [RestrictToVerticalAxis, RestrictToElement]
+        index
     });
 
+    const onFocus = (e:React.FocusEvent<HTMLDivElement>) => {
+        if(!(e.target instanceof HTMLInputElement)) return;
+        console.log("focus", field.id);
+        onSelect();
+    }
+
+    const onClick = (e:React.MouseEvent<HTMLDivElement>) => {
+        if(e.target instanceof HTMLInputElement || e.target instanceof HTMLButtonElement ||
+           e.target instanceof SVGElement || e.target instanceof Path2D
+        )
+        return;
+        console.log("click", field.id);
+        onSelect();
+    }
+
     return (
-        <div className="min-h-50 flex flex-col items-center w-[90%] pt-1 bg-surface rounded-2xl border-[1.5px] border-border/60
-        hover:border-2 hover:border-border hover:shadow-card hover:scale-102 transition-all duration-150" ref={ref}>
+        <div className={`min-h-50 flex flex-col items-center w-[90%] pt-1 bg-surface rounded-2xl border-3 border-x-6 border-border/60 focus:outline-none
+        hover:border-border hover:border-4 hover:border-x-8 hover:shadow-card hover:scale-102 transition-all duration-150` + (isSelected ? "border-3 border-x-6 border-primary/50 hover:border-primary/60" : "")}
+        ref={ref}
+        tabIndex={0}
+        data-field-id={field.id}
+        onFocus={onFocus}
+        onClick={onClick}
+        >
             {!confirmDelete ? <DragHandle handleRef={handleRef} isDragging={isDragging} /> : <div className="h-5"></div>}
-            <Body field={field} onUpdate={onUpdate} />
+            <div className={"relative flex-1 w-[95%] px-2 py-2 " + (confirmDelete ? "blur-[1.5px] pointer-events-none select-none" : "") + " border-b-[1.5px] "+ (isSelected? "border-primary/50" : "border-border/60")}><Body field={field} onUpdate={onUpdate} /></div>
             {confirmDelete ? (
                 <ConfirmDelete setConfirmDelete={setConfirmDelete} onDelete={onDelete} />
             ) : (
