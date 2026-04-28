@@ -17,36 +17,56 @@ const ToolBar = ({field, setConfirmDelete, onDuplicate, onUpdate, isDragging}: T
   return (
     <div className="w-full flex items-center justify-between gap-2 px-3 py-2">
         <div className="flex items-center gap-2 capitalize ml-2">
-            <div className="text-foreground-muted ">
+            <div className="text-foreground-muted">
                 <Icon size={16}/>
             </div>
             <p className="text-foreground-muted text-sm pt-px">{field.type==="text"?field.subtype:field.type}</p>
         </div>
-        <div className="flex items-center gap-3">
-            <div className="flex items-center gap-4 border-r-[1.5px] border-border pr-4">
+        <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 border-r-[1.5px] border-border pr-4">
                 <button 
                     onClick={() => setConfirmDelete(true)}
                     className="group/delete p-1"
                     aria-label="Delete field"
                 >
-                    <Trash className={`text-foreground-muted size-4 group-hover/delete:text-destructive group-hover/delete:scale-110 transition-all duration-150 active:text-destructive active:scale-110 ${isDragging ? 'text-destructive scale-110' : ''}`}/>
+                    <Trash className={`text-foreground-secondary size-4 group-hover/delete:text-destructive transition-all duration-150 active:text-destructive ${isDragging ? 'text-destructive' : ''}`}/>
                 </button>
                 <button
                     onClick={onDuplicate}
                     className="group/duplicate p-1"
                     aria-label="Duplicate field"
                 >
-                    <Copy className={`text-foreground-muted size-4 group-hover/duplicate:text-foreground group-hover/duplicate:scale-110 transition-all duration-150 active:text-foreground active:scale-110 ${isDragging ? 'text-foreground scale-110' : ''}`}/>
+                    <Copy className={`text-foreground-secondary size-4 group-hover/duplicate:text-foreground transition-all duration-150 active:text-foreground ${isDragging ? 'text-foreground' : ''}`}/>
                 </button>
             </div>
-            <div className="flex items-center gap-3">
-                <span className="text-foreground-muted text-sm">Required</span>
+            <div className="flex items-center gap-2 group/required">
+                <span className="text-foreground-secondary text-xs group-hover/required:text-foreground transition-all duration-150 active:text-foreground">Required</span>
                 <Switch
-                    className="mr-2"
+                    className="mr-1.5"
                     checked={field.required}
-                    onCheckedChange={(checked) => onUpdate({ required: checked })}
+                    onCheckedChange={(checked) => onUpdate({ required: checked, disabled: checked?false:field.disabled })}
                 />
             </div>
+            <div className="flex items-center gap-2 group/disabled">
+                <span className="text-foreground-secondary text-xs group-hover/disabled:text-foreground transition-all duration-150 active:text-foreground">Disabled</span>
+                <Switch
+                    className="mr-1.5"
+                    checked={field.disabled}
+                    onCheckedChange={(checked) => onUpdate({ disabled: checked, required: checked?false:field.required })}
+                />
+            </div>
+            {
+                field.type === "select" && (
+                    <div className="flex items-center gap-2 group/multiselect">
+                        <span className="text-foreground-secondary text-xs group-hover/multiselect:text-foreground transition-all duration-150 active:text-foreground">Multiselect</span>
+                        <Switch
+                            className="mr-1.5"
+                            checked={field.multiselect}
+                            onCheckedChange={(checked) => onUpdate({ multiselect: checked})}
+                        />
+                    </div>
+                )
+            }
         </div>
     </div>
   )
