@@ -13,6 +13,14 @@ const LabelInput = ({field, localLabel, handleLabelChange}: LabelInputProps) => 
       const card = e.currentTarget.closest('[data-field-id]') as HTMLElement | null;
       card?.focus();
     }
+    if(e.key==="ArrowDown"){
+      const card = e.currentTarget.closest('[data-field-id]') as HTMLElement | null;
+      card?.focus();
+    }
+    if(e.key==="ArrowUp"){
+      const card = e.currentTarget.closest('[data-field-id]') as HTMLElement | null;
+      card?.focus();
+    }
   }
 
   return (

@@ -19,6 +19,7 @@ const FieldHtmlPreview = ({field, localLabel, localPlaceholder}: FieldHtmlPrevie
             {"<select id=\"id\" name=\"name\""}
             {field.disabled && <span className="text-foreground/50"> disabled</span>}
             {field.required && <span className="text-foreground/50"> required</span>}
+            {field.multiselect && <span className="text-foreground/50"> multiple</span>}
             {">...</select>"}
           </>
         ) : (field.type === "checkboxGroup" || field.type === "radioGroup") ? (

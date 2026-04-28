@@ -8,6 +8,7 @@ import { DragDropProvider } from "@dnd-kit/react";
 import { RestrictToElement } from "@dnd-kit/dom/modifiers";
 import { RestrictToVerticalAxis } from "@dnd-kit/abstract/modifiers";
 import { isSortable } from "@dnd-kit/dom/sortable";
+import { arrayMove } from "@/utils/arrayMove";
 
 type OptionsContainerProps = {
     field: SelectField | RadioGroupField | CheckboxGroupField;
@@ -30,7 +31,7 @@ const OptionsContainer = ({field, onUpdate}: OptionsContainerProps) => {
     const newOption: FieldOption ={
         id: crypto.randomUUID(),
         label: "Option " + (field.options.length + 1),
-        value: "",
+        value: "Option " + (field.options.length + 1),
         disabled: false
     }
 
@@ -38,13 +39,6 @@ const OptionsContainer = ({field, onUpdate}: OptionsContainerProps) => {
     onUpdate({options: [...field.options, newOption]});
   }
     
-  function arrayMove<T>(array: T[], initialIndex: number, index: number) {
-    const newArray = [...array];
-    const movedItem = newArray.splice(initialIndex, 1)[0];
-    newArray.splice(index, 0, movedItem);
-    return newArray;
-  }
-
   return (
     <div ref={containerRef} className="mt-2">
       <DragDropProvider modifiers={[
