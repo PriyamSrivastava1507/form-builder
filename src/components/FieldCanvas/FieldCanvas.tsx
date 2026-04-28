@@ -4,12 +4,16 @@ import type { FieldSchema } from "../../types/field";
 import FieldCanvasCard from "./FieldCanvasCard/FieldCanvasCard";
 import { isSortable } from '@dnd-kit/react/sortable';
 import type { DistributiveOmit } from "@/types/palette";
+import { useEffect, useRef } from "react";
+import { RestrictToVerticalAxis } from "@dnd-kit/abstract/modifiers";
+import { RestrictToElement } from "@dnd-kit/dom/modifiers";
 
 /**
  * @component
  * Renders the main canvas area where form fields are dropped and arranged
  */
 const FieldCanvas = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const fields = useFormStore((state) => state.fields);
   const selectedId = useFormStore((state) => state.selectedId);
   const addField = useFormStore((state) => state.addField);
@@ -18,9 +22,39 @@ const FieldCanvas = () => {
   const reorderFields = useFormStore((state) => state.reorderFields);
   const setSelectedId = useFormStore((state) => state.setSelectedField);
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!selectedId) return;
+    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+
+    e.preventDefault(); // prevent browser scroll
+
+    const currentIndex = fields.findIndex(f => f.id === selectedId);
+
+    if (e.key === 'ArrowDown' && currentIndex < fields.length - 1) {
+      setSelectedId(fields[currentIndex + 1].id);
+    } else if (e.key === 'ArrowUp' && currentIndex > 0) {
+      setSelectedId(fields[currentIndex - 1].id);
+    }
+  };
+
+  useEffect(() => {
+    if (!selectedId) return;
+    const el = containerRef.current?.querySelector(`[data-field-id="${selectedId}"]`);
+    el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, [selectedId]);
+
   return (
-   <main className="flex-1 h-full border-r border-border py-10 px-15 overflow-y-auto scrollbar-custom">
+   <main ref={containerRef} className="flex-1 h-full border-r border-border py-10 px-15 overflow-y-auto scrollbar-custom"
+   onKeyDown={handleKeyDown}>
       <DragDropProvider
+        modifiers={[
+          RestrictToVerticalAxis,
+          // eslint-disable-next-line react-hooks/refs
+          RestrictToElement.configure({
+            element: () => containerRef.current ?? null
+          })
+        ]}
         onDragEnd={(event) => {
           if (event.canceled) return;
 
