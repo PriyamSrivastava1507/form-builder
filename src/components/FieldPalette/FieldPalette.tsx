@@ -14,6 +14,7 @@ type FieldPaletteProps = {
 const FieldPalette = ({ addField }: FieldPaletteProps) => {
   return (
     <aside className="w-64 h-full border-r border-border bg-surface px-4 py-4 overflow-y-auto scrollbar-custom">
+        <h2 className="text-base text-foreground-muted font-semibold border-b-2 border-border/80 px-2 pt-1 pb-3 mb-5">FIELD PALETTE</h2>
         {FIELD_PALETTE_CONFIG.map((group) => (
             <div key={group.label}>
                 <FieldPaletteGroup group={group} addField={addField} />
