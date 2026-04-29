@@ -15,13 +15,12 @@ import type {
 export type FieldType = 'text'
     | 'textarea'
     | 'select'
-    | 'radio'
+    | 'radioGroup'
     | 'checkbox'
     | 'checkboxGroup'
     | 'date'
     | 'file'
-    | 'range'
-    | 'switch';
+    | 'range';
 
 /**
  * Subtypes available for the 'text' field type.
@@ -40,17 +39,21 @@ export type TextSubtype = 'text'
  * (select, radio, checkbox-group).
  */
 export type FieldOption = {
+    id: string;
     label: string; // Display text shown to the user
     value: string; // Underlying value submitted with the form
+    disabled: boolean; // Whether the option is disabled
 };
 
 /**
  * Shared properties common to every field in the form schema.
  */
 type BaseField = {
-    id: string;           // Unique identifier for the field
-    label: string;        // Display label shown above the input
-    required: boolean;    // Whether the field must be filled before submission
+    id: string;
+    name: string;
+    label: string;
+    required: boolean;
+    disabled: boolean;    
 };
 
 /**
@@ -77,7 +80,7 @@ export type PlainTextField = TextBaseField & {
 export type NumberTextField = TextBaseField & {
     subtype: 'number';
     validations: NumberValidation;
-    defaultValue?: number;
+    defaultValue?: number | null;
 }
 
 /**
@@ -144,17 +147,18 @@ export type TextareaField = BaseField & {
  */
 export type SelectField = BaseField & {
     type: 'select';
+    multiselect: boolean;
     options: FieldOption[];
     validations: NoValidation;
-    defaultValue?: string;
+    defaultValue?: string[];
 };
 
 /**
  * Radio button group field.
  * Only one option can be selected at a time.
  */
-export type RadioField = BaseField & {
-    type: 'radio';
+export type RadioGroupField = BaseField & {
+    type: 'radioGroup';
     options: FieldOption[];
     validations: NoValidation;
     defaultValue?: string;
@@ -202,7 +206,7 @@ export type FileField = BaseField & {
 export type RangeField = BaseField & {
     type: 'range';
     validations: RangeValidation;
-    defaultValue?: number;
+    defaultValue?: number | null;
 };
 
 /**
@@ -223,10 +227,9 @@ export type SwitchField = BaseField & {
 export type FieldSchema = TextField
     | TextareaField
     | SelectField
-    | RadioField
+    | RadioGroupField
     | CheckboxField
     | CheckboxGroupField
     | DateField
     | FileField
-    | RangeField
-    | SwitchField;
+    | RangeField;

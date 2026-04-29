@@ -1,4 +1,4 @@
-import { AtSign, Binary, CalendarDays, ChevronDownCircle, Disc, FileTypeCorner, Gauge, LayoutGrid, Link2, LockKeyhole, Phone, SquareCheck, ToggleLeft, Type, Upload } from "lucide-react";
+import { AtSign, Binary, CalendarDays, ChevronDownCircle, Disc, FileTypeCorner, Gauge, LayoutGrid, Link2, LockKeyhole, Phone, SquareCheck, Type, Upload } from "lucide-react";
 import type { FieldDefaults, FieldIcons, PaletteGroupConfig } from "../types/palette";
 
 export const FIELD_ICONS: FieldIcons = {
@@ -12,13 +12,12 @@ export const FIELD_ICONS: FieldIcons = {
     },
     textarea: FileTypeCorner,
     select: ChevronDownCircle,
-    radio: Disc,
+    radioGroup: Disc,
     checkbox: SquareCheck,
     checkboxGroup: LayoutGrid,
     date: CalendarDays,
     file: Upload,
-    range: Gauge,
-    switch: ToggleLeft,
+    range: Gauge
 }
 
 /**
@@ -96,10 +95,10 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
                 }
             },
             {
-                label: "Radio",
-                icon: FIELD_ICONS.radio,
+                label: "Radio Group",
+                icon: FIELD_ICONS.radioGroup,
                 fieldConfig: {
-                    type: "radio",
+                    type: "radioGroup",
                 }
             },
             {
@@ -151,14 +150,7 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
                 fieldConfig: {
                     type: "range",
                 }
-            },
-            {
-                label: "Switch",
-                icon: FIELD_ICONS.switch,
-                fieldConfig: {
-                    type: "switch",
-                }
-            },
+            }
         ]
     },
 ]
@@ -169,129 +161,151 @@ export const FIELD_PALETTE_CONFIG: PaletteGroupConfig[] = [
 export const FIELD_DEFAULTS: FieldDefaults = {
     text: {
         text: {
+            name: "",
             type: "text",
             subtype: "text",
             label: "Text",
             required: false,
+            disabled: false,
             defaultValue: "",
             placeholder: "",
             validations: {}
         },
         number: {
+            name: "",
             type: "text",
             subtype: "number",
             label: "Number",
             required: false,
-            defaultValue: 0,
+            disabled: false,
+            defaultValue: null,
             placeholder: "",
             validations: {}
         },
         email: {
+            name: "",
             type: "text",
             subtype: "email",
             label: "Email",
             required: false,
+            disabled: false,
             defaultValue: "",
             placeholder: "",
             validations: {}
         },
         password: {
+            name: "",
             type: "text",
             subtype: "password",
             label: "Password",
             required: false,
+            disabled: false,
             defaultValue: "",
             placeholder: "",
             validations: {}
         },
         tel: {
+            name: "",
             type: "text",
             subtype: "tel",
             label: "Tel",
             required: false,
+            disabled: false,
             defaultValue: "",
             placeholder: "",
             validations: {}
         },
         url: {
+            name: "",
             type: "text",
             subtype: "url",
             label: "URL",
             required: false,
+            disabled: false,
             defaultValue: "",
             placeholder: "",
             validations: {}
         }
     },
     textarea: {
+        name: "",
         type: "textarea",
         label: "Textarea",
         required: false,
+        disabled: false,
         defaultValue: "",
         placeholder: "",
         validations: {}
     },
     select: {
+        name: "",
         type: "select",
         label: "Select",
         required: false,
-        defaultValue: "",
+        disabled: false,
+        multiselect: false,
+        defaultValue: [],
         options: [],
         validations: {}
     },
-    radio: {
-        type: "radio",
-        label: "Radio",
+    radioGroup: {
+        name: "",
+        type: "radioGroup",
+        label: "Radio Group",
         required: false,
+        disabled: false,
         defaultValue: "",
         options: [],
         validations: {}
     },
     checkbox: {
+        name: "",
         type: "checkbox",
         label: "Checkbox",
         required: false,
+        disabled: false,
         defaultValue: false,
         validations: {}
     },
     checkboxGroup: {
+        name: "",
         type: "checkboxGroup",
         label: "Checkbox Group",
         required: false,
+        disabled: false,
         defaultValue: [],
         options: [],
         validations: {}
     },
     date: {
+        name: "",
         type: "date",
         label: "Date",
         required: false,
+        disabled: false,
         defaultValue: "",
         validations: {}
     },
     file: {
+        name: "",
         type: "file",
         label: "File",
         required: false,
+        disabled: false,
         validations: {}
     },
     range: {
+        name: "",
         type: "range",
         label: "Range",
         required: false,
-        defaultValue: 0,
+        disabled: false,
+        defaultValue: null,
         validations: {
             min: 0,
             max: 100,
             step: 1
         }
-    },
-    switch: {
-        type: "switch",
-        label: "Switch",
-        required: false,
-        defaultValue: false,
-        validations: {}
     }
 };
 
