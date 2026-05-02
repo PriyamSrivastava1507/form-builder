@@ -3,8 +3,13 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
-// https://vite.dev/config/
 export default defineConfig({
+  define: {
+    __BUNDLED_DEV__: JSON.stringify(true),
+  },
+  // optimizeDeps: {
+  //   exclude: ['@dnd-kit/abstract', '@dnd-kit/dom', '@dnd-kit/react'],
+  // },
   plugins: [
     react({
       babel: {
