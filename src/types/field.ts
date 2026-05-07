@@ -148,6 +148,7 @@ export type TextareaField = BaseField & {
 export type SelectField = BaseField & {
     type: 'select';
     multiselect: boolean;
+    size: number | null;
     options: FieldOption[];
     validations: NoValidation;
     defaultValue?: string[];
