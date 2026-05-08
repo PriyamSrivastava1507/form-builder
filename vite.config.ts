@@ -3,17 +3,23 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   define: {
     __BUNDLED_DEV__: JSON.stringify(true),
   },
-  // optimizeDeps: {
-  //   exclude: ['@dnd-kit/abstract', '@dnd-kit/dom', '@dnd-kit/react'],
-  // },
+  optimizeDeps: {
+    include: [
+      'react-syntax-highlighter',
+      'react-syntax-highlighter/dist/esm/languages/prism/tsx',
+      'react-syntax-highlighter/dist/esm/languages/prism/typescript',
+      'react-syntax-highlighter/dist/esm/languages/prism/javascript',
+      'react-syntax-highlighter/dist/esm/languages/prism/json',
+    ],
+  },
   plugins: [
     react({
       babel: {
-        plugins: [['babel-plugin-react-compiler']],
+        plugins: mode === 'production' ? [['babel-plugin-react-compiler']] : [],
       },
     }),
     tailwindcss(),
@@ -23,4 +29,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-})
+}))
