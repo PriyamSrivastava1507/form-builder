@@ -13,8 +13,10 @@
 <br />
 
 <div align="center">
-  <video src="./public/video/demo.mp4" poster="./public/screenshots/01-homepage.png" controls width="100%"></video>
-  <p><em>Watch the demo of Codiform in action.</em></p>
+  <a href="./public/video/demo.mp4">
+    <img src="./public/screenshots/01-homepage.png" alt="Watch the demo of Codiform in action" width="100%" />
+  </a>
+  <p><em>Click the image above to watch the demo video.</em></p>
 </div>
 
 ---
