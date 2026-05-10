@@ -13,7 +13,7 @@
 <br />
 
 <div align="center">
-  <video src="./public/demo.mp4" poster="./public/screenshots/01-home.png" controls width="100%"></video>
+  <video src="./public/video/demo.mp4" poster="./public/screenshots/01-homepage.png" controls width="100%"></video>
   <p><em>Watch the demo of Codiform in action.</em></p>
 </div>
 
@@ -26,15 +26,15 @@ The generated output is ready to be pasted directly into any React application. 
 ## Screenshots
 
 <div align="center">
-  <img src="./public/screenshots/01-home.png" alt="Home page" width="32%" />
-  <img src="./public/screenshots/02-builder.png" alt="Builder canvas" width="32%" />
-  <img src="./public/screenshots/03-preview.png" alt="Preview page" width="32%" />
-  <img src="./public/screenshots/04-schema.png" alt="Schema output" width="32%" />
-  <img src="./public/screenshots/05-form.png" alt="Form component output" width="32%" />
-  <img src="./public/screenshots/06-json.png" alt="JSON output" width="32%" />
-  <img src="./public/screenshots/07-full-code.png" alt="Full code output" width="32%" />
-  <img src="./public/screenshots/08-replace-modal.png" alt="Replace template modal" width="32%" />
-  <img src="./public/screenshots/09-delete-modal.png" alt="Delete form modal" width="32%" />
+  <img src="./public/screenshots/01-homepage.png" alt="Home page" width="32%" />
+  <img src="./public/screenshots/02-builderpage.png" alt="Builder canvas" width="32%" />
+  <img src="./public/screenshots/07-previewpage.png" alt="Preview page" width="32%" />
+  <img src="./public/screenshots/03-schemacode.png" alt="Schema output" width="32%" />
+  <img src="./public/screenshots/04-formcode.png" alt="Form component output" width="32%" />
+  <img src="./public/screenshots/05-jsonschema.png" alt="JSON output" width="32%" />
+  <img src="./public/screenshots/06-fullcode.png" alt="Full code output" width="32%" />
+  <img src="./public/screenshots/08-replace-confirmation.png" alt="Replace template modal" width="32%" />
+  <img src="./public/screenshots/09-delete-confirmation.png" alt="Delete form modal" width="32%" />
 </div>
 
 ## Features
