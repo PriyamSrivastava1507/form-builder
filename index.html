@@ -2,12 +2,25 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>form-generator</title>
+    <title>Codiform</title>
   </head>
-  <body>
+  <body style="background-color: #0a0a0a; position: relative">
     <div id="root"></div>
+    <div
+      id="modal-root"
+      style="
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 100;
+      "
+    ></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
