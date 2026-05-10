@@ -29,4 +29,37 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+  rollupOptions: {
+    output: {
+      manualChunks: {
+        'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+        
+        // State
+        'zustand': ['zustand'],
+        
+        // DnD
+        'dnd-kit': ['@dnd-kit/react', '@dnd-kit/dom', '@dnd-kit/abstract'],
+        
+        // UI / Radix
+        'radix-ui': ['radix-ui', '@radix-ui/react-switch', '@radix-ui/react-popover', '@radix-ui/react-dialog'],
+        
+        // Syntax highlighting — output page only
+        'syntax-highlighter': ['react-syntax-highlighter'],
+        
+        // Schema validation — output page only  
+        'validators': ['zod', 'yup'],
+        
+        // Shadcn utilities
+        'shadcn-utils': ['clsx', 'tailwind-merge', 'class-variance-authority'],
+        
+        // Date
+        'date-fns': ['date-fns'],
+        
+        // Icons
+        'lucide': ['lucide-react'],
+      }
+    }
+  }
+}
 }))
