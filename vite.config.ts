@@ -33,7 +33,7 @@ export default defineConfig(({ mode }) => ({
   rollupOptions: {
     output: {
       manualChunks: {
-        'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+        'react-vendor': ['react', 'react-dom', 'react-router'],
         
         // State
         'zustand': ['zustand'],
@@ -46,9 +46,6 @@ export default defineConfig(({ mode }) => ({
         
         // Syntax highlighting — output page only
         'syntax-highlighter': ['react-syntax-highlighter'],
-        
-        // Schema validation — output page only  
-        'validators': ['zod', 'yup'],
         
         // Shadcn utilities
         'shadcn-utils': ['clsx', 'tailwind-merge', 'class-variance-authority'],
