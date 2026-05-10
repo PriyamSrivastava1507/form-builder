@@ -13,7 +13,7 @@
 <br />
 
 <div align="center">
-  <a href="./public/video/demo.mp4">
+  <a href="https://drive.google.com/file/d/1_ft7QeZRYOXRBnDfzUjxEUfJjufWyxcv/view?usp=sharing" target="_blank">
     <img src="./public/screenshots/01-homepage.png" alt="Watch the demo of Codiform in action" width="100%" />
   </a>
   <p><em>Click the image above to watch the demo video.</em></p>
