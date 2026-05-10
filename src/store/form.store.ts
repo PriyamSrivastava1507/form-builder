@@ -1,5 +1,6 @@
 import { create, type StateCreator } from "zustand";
 import { temporal } from "zundo";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import type { FieldSchema } from "../types/field";
 import type { DistributiveOmit } from "@/types/palette";
@@ -15,9 +16,11 @@ export type FormStore = {
   // ── State ──────────────────────────────────────────────
   fields: FieldSchema[];     // Ordered list of fields on the canvas
   selectedId: string | null; // ID of the field currently selected for editing
+  formName: string;
 
   // ── Actions ────────────────────────────────────────────
 
+  setFields: (fields: FieldSchema[]) => void;
   /**
    * Appends a new field to the end of the canvas.
    * @param {FieldSchema} field - Fully constructed field to add
@@ -59,6 +62,8 @@ export type FormStore = {
    */
   setSelectedField: (id: string | null) => void;
 
+  setFormName: (name: string) => void;
+
   /**
    * Removes all fields and clears the selection.
    * Used when the user resets the canvas.
@@ -73,6 +78,9 @@ export type FormStore = {
 const createFormStore: StateCreator<FormStore> = (set) => ({
   fields: [],
   selectedId: null,
+  formName: "Untitled Form",
+
+  setFields: (fields) => set({ fields }),
 
   addField: (field) => set((state) => ({ fields: [...state.fields, field] })),
 
@@ -122,6 +130,8 @@ const createFormStore: StateCreator<FormStore> = (set) => ({
 
   setSelectedField: (id) => set({ selectedId: id }),
 
+  setFormName: (name) => set({ formName: name }),
+
   clearFields: () => set({ fields: [], selectedId: null }),
 });
 
@@ -132,6 +142,16 @@ const createFormStore: StateCreator<FormStore> = (set) => ({
  * `selectedId` is transient UI state that should not be tracked
  * in the undo/redo stack.
  */
-export const useFormStore = create<FormStore>()(temporal(createFormStore, {
-  partialize: (state) => ({ fields: state.fields }),
-}));
+export const useFormStore = create<FormStore>()(temporal(
+  persist(
+    createFormStore, {
+      name: "form-builder-store",
+      storage: createJSONStorage(() => sessionStorage),
+      partialize: (state)=> ({ fields: state.fields, formName: state.formName }) 
+    }
+  )
+  ,{
+    partialize: (state) => ({ fields: state.fields, formName: state.formName }),
+  }
+ )
+);
