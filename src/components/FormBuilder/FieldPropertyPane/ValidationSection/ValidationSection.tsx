@@ -12,6 +12,13 @@ type ValidationSectionProps = {
     field: FieldSchema;
 }
 
+/**
+ * @component
+ * Renders the validation configuration section in the properties pane based on the field type.
+ * Uses conditional rendering to display relevant validation controls (e.g., min/max length for text, min/max value for numbers).
+ * @param {ValidationSectionProps} props - Component props
+ * @param {FieldSchema} props.field - The selected field schema to configure
+ */
 const ValidationSection = ({ field }: ValidationSectionProps) => {
 
     const showTextValidation = field.type === "text" && (field.subtype === "text" || field.subtype === "password" || field.subtype === "tel");

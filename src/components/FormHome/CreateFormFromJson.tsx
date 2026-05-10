@@ -5,6 +5,11 @@ import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import Modal from "@/components/ui/Modal";
 
+/**
+ * @component
+ * Renders the "Create From JSON" card and manages its corresponding modal.
+ * Allows users to paste a JSON array of fields to initialize a form.
+ */
 const CreateFormFromJson = () => {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);

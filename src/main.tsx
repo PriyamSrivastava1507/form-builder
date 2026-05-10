@@ -15,6 +15,10 @@ const FormOutputPage = lazy(() => import('./pages/FormOutputPage'));
 const FormPreviewPage = lazy(() => import('./pages/FormPreviewPage'));
 const FormSeeAllTemplates = lazy(() => import('./pages/FormSeeAllTemplates'));
 
+/**
+ * Application routing configuration using React Router.
+ * Handles top-level navigation, lazy loading, and suspense wrapping for performance.
+ */
 const router = createBrowserRouter([
   {
     path: "/",

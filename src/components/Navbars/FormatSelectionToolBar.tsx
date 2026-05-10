@@ -8,6 +8,13 @@ type FormatSelectionToolBarProps = {
     currentPage: "home" | "builder" | "format-selection" | "output" | "preview" | "see-all-page";
 }
 
+/**
+ * @component
+ * Toolbar for format selection and code output pages, allowing users to choose target language and library.
+ * Includes a back button to return to the builder.
+ * @param {FormatSelectionToolBarProps} props - Component props
+ * @param {"home" | "builder" | "format-selection" | "output" | "preview" | "see-all-page"} props.currentPage - The current active page
+ */
 const FormatSelectionToolBar = ({currentPage}:FormatSelectionToolBarProps) => {
   const navigate = useNavigate();
   const setLanguage = useOutputFormatStore((state) => state.setLanguage);

@@ -7,6 +7,13 @@ type OptionConfigSectionProps = {
     field: FieldSchema
 }
 
+/**
+ * @component
+ * Renders the options configuration section for fields with multiple choices (select, radioGroup, checkboxGroup).
+ * Delegates to specific list components to allow adding, editing, and deleting options.
+ * @param {OptionConfigSectionProps} props - Component props
+ * @param {FieldSchema} props.field - The selected field schema to configure
+ */
 const OptionConfigSection = ({field}: OptionConfigSectionProps) => {
   return (
     <div className="px-2 pt-1 mb-5 pb-6 border-b-[1.5px] border-border/80">

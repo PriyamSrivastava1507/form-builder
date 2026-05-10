@@ -12,6 +12,17 @@ type ToolBarProps = {
     isDragging: boolean;
 }
 
+/**
+ * @component
+ * Toolbar for individual field cards on the canvas.
+ * Provides controls to delete, duplicate, and toggle boolean states (required, disabled, multiselect).
+ * @param {ToolBarProps} props - Component props
+ * @param {FieldSchema} props.field - The field schema data
+ * @param {(confirmDelete: boolean) => void} props.setConfirmDelete - Function to toggle the delete confirmation view
+ * @param {() => void} props.onDuplicate - Function to duplicate the field
+ * @param {(changes: Partial<DistributiveOmit<FieldSchema, 'id' | 'type'>>) => void} props.onUpdate - Function to update the field's properties
+ * @param {boolean} props.isDragging - Whether the field is currently being dragged
+ */
 const ToolBar = ({field, setConfirmDelete, onDuplicate, onUpdate, isDragging}: ToolBarProps) => {
   const Icon = field.type === 'text' ? FIELD_ICONS.text[field.subtype] : FIELD_ICONS[field.type];
   return (

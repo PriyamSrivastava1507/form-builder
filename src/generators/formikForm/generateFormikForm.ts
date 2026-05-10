@@ -6,6 +6,13 @@ function needsRenderProps(fields: FieldSchema[]): boolean {
   return fields.some((f) => f.type === "file" || f.type === "range");
 }
 
+/**
+ * Generates a Formik form component using Zod for validation.
+ * @param {FieldSchema[]} fields - The form fields schema
+ * @param {string} schemaName - The validation schema variable name
+ * @param {boolean} isTS - Whether to output TypeScript
+ * @returns {string} The generated React component code
+ */
 export function generateFormikZodForm(fields: FieldSchema[], schemaName: string, isTS: boolean): string {
   const defaultValues = collectDefaultValues(fields, 6, isTS);
   const fieldsStr = fields.map(generateFormikField).join("\n");
@@ -52,6 +59,13 @@ export default function GeneratedForm() {
 }`;
 }
 
+/**
+ * Generates a Formik form component using Yup for validation.
+ * @param {FieldSchema[]} fields - The form fields schema
+ * @param {string} schemaName - The validation schema variable name
+ * @param {boolean} isTS - Whether to output TypeScript
+ * @returns {string} The generated React component code
+ */
 export function generateFormikYupForm(fields: FieldSchema[], schemaName: string, isTS: boolean): string {
   const defaultValues = collectDefaultValues(fields, 6, isTS);
   const fieldsStr = fields.map(generateFormikField).join("\n");

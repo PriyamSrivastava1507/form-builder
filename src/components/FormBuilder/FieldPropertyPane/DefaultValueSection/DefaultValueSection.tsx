@@ -8,6 +8,13 @@ type DefaultValueSectionProps = {
     field: FieldSchema;
 }
 
+/**
+ * @component
+ * Renders the default value configuration section in the properties pane based on the field type.
+ * Delegates to specific sub-components (TextDVSection, NumberDVSection, etc.) to handle different data types.
+ * @param {DefaultValueSectionProps} props - Component props
+ * @param {FieldSchema} props.field - The selected field schema to configure
+ */
 const DefaultValueSection = ({field}: DefaultValueSectionProps) => {
   const isText = field.type === "text" && field.subtype !== "number";
   const isNumber = field.type === "text" && field.subtype === "number";

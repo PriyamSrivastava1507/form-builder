@@ -5,6 +5,14 @@ import { generateFormikField } from "../formikForm/formikGenerators";
 
 import { stripSchemaImports } from "./stripSchemaImports";
 
+/**
+ * Generates a complete React component file string using Formik and Yup.
+ * Includes imports, form schema, and component implementation.
+ * @param {FieldSchema[]} fields - Array of form fields to generate code for
+ * @param {string} schemaName - Name of the validation schema variable
+ * @param {boolean} isTS - Whether to generate TypeScript code
+ * @returns {string} The generated React component code
+ */
 export function generateFormikYupSingleFile(
   fields: FieldSchema[],
   schemaName: string,

@@ -1,6 +1,10 @@
 import { useNavigate } from "react-router";
 import { ArrowLeft } from "lucide-react";
 
+/**
+ * @component
+ * Header used on the "See All Templates" page, featuring a back button to navigate to the home page.
+ */
 const TemplateHeader = () => {
   const navigate = useNavigate();
 

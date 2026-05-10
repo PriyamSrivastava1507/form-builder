@@ -10,16 +10,34 @@ import type {
   TextareaValidation,
 } from "@/types/fieldValidation";
 
+/**
+ * Stringifies and quotes a value for use in generated code.
+ * @param {unknown} value - The value to stringify
+ * @returns {string} The quoted string representation
+ */
 export const q = (value: unknown) => JSON.stringify(String(value));
 
+/**
+ * Formats a string as a valid object key, quoting it if it contains invalid characters.
+ * @param {string} key - The object key to format
+ * @returns {string} The formatted object key
+ */
 export const asKey = (key: string) =>
   /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(key) ? key : JSON.stringify(key);
 
+/**
+ * Extracts all non-empty values from a field's options array.
+ * @param {{ options?: FieldOption[] }} field - The field containing options
+ * @returns {string[]} An array of option values
+ */
 export const optionValues = (field: { options?: FieldOption[] }) =>
   (field.options ?? [])
     .map((opt) => opt.value)
     .filter((v): v is string => v.length > 0);
 
+/**
+ * Generated Yup transform function to convert blank strings to undefined.
+ */
 export const yupBlankToUndefined = `(value, originalValue) => {
     if (originalValue == null) return undefined;
     if (typeof originalValue === "string") {
@@ -29,6 +47,9 @@ export const yupBlankToUndefined = `(value, originalValue) => {
     return value;
   }`;
 
+/**
+ * Generated Zod transform function to convert a FileList to a single File.
+ */
 export const zodFileListToFile = `(value) => {
     if (value == null) return undefined;
     if (typeof FileList !== "undefined" && value instanceof FileList) {
@@ -38,6 +59,9 @@ export const zodFileListToFile = `(value) => {
     return value;
   }`;
 
+/**
+ * Generated Yup transform function to convert a FileList to a single File.
+ */
 export const yupFileListToFile = `(value, originalValue) => {
     if (originalValue == null) return undefined;
     if (typeof FileList !== "undefined" && originalValue instanceof FileList) {
@@ -47,8 +71,19 @@ export const yupFileListToFile = `(value, originalValue) => {
     return value;
   }`;
 
+/**
+ * Generates an array includes check for a given set of allowed values.
+ * @param {string[]} values - Allowed values
+ * @returns {string} The generated condition check
+ */
 export const allowedCheck = (values: string[]) => `${JSON.stringify(values)}.includes(value)`;
 
+/**
+ * Generates a file validation check for MIME types and extensions.
+ * @param {string} fileVar - Variable name of the file
+ * @param {string[]} values - Array of accepted MIME types or extensions
+ * @returns {string} The generated condition check
+ */
 export const fileAcceptedCheck = (fileVar: string, values: string[]) => {
   const arr = JSON.stringify(values);
   return `${arr}.some((expected) => {
@@ -68,6 +103,12 @@ function formatChain(base: string, parts: string[]): string {
   return base + "\n" + parts.map((p) => `    ${p}`).join("\n");
 }
 
+/**
+ * Builds a Zod validation chain for text-like fields (text, textarea, password, tel).
+ * @param {TextField | TextareaField} field - The text field configuration
+ * @param {TextValidation | TextareaValidation} validation - Validation rules
+ * @returns {string} The generated Zod validation string
+ */
 export function buildZodTextLike(
   field: TextField | TextareaField,
   validation: TextValidation | TextareaValidation,
@@ -106,6 +147,12 @@ export function buildZodTextLike(
   return inner;
 }
 
+/**
+ * Builds a Yup validation chain for text-like fields.
+ * @param {TextField | TextareaField} field - The text field configuration
+ * @param {TextValidation | TextareaValidation} validation - Validation rules
+ * @returns {string} The generated Yup validation string
+ */
 export function buildYupTextLike(
   field: TextField | TextareaField,
   validation: TextValidation | TextareaValidation,
@@ -133,8 +180,17 @@ export function buildYupTextLike(
   return formatChain(`yup.string()`, parts);
 }
 
+/**
+ * Generated Zod preprocess function to convert NaN to undefined.
+ */
 export const zodNaNToUndefined = `(val) => (typeof val === "number" && Number.isNaN(val)) ? undefined : val`;
 
+/**
+ * Builds a Zod validation chain for number fields.
+ * @param {NumberValidation} validation - Validation rules for the number
+ * @param {boolean} required - Whether the field is required
+ * @returns {string} The generated Zod validation string
+ */
 export function buildZodNumber(validation: NumberValidation, required: boolean) {
   const base = `z.number({
     error: (issue) => issue.input === undefined ? ${q("This field is required")} : ${q("Must be a number")}
@@ -166,6 +222,12 @@ export function buildZodNumber(validation: NumberValidation, required: boolean) 
   return `z.preprocess(\n    ${zodNaNToUndefined},\n    ${inner.split("\\n").join("\\n    ")}\n  )`;
 }
 
+/**
+ * Builds a Yup validation chain for number fields.
+ * @param {NumberValidation} validation - Validation rules for the number
+ * @param {boolean} required - Whether the field is required
+ * @returns {string} The generated Yup validation string
+ */
 export function buildYupNumber(validation: NumberValidation, required: boolean) {
   const base = `yup.number()
     .transform((value, originalValue) => {
@@ -196,6 +258,14 @@ export function buildYupNumber(validation: NumberValidation, required: boolean) 
   return formatChain(base, parts);
 }
 
+/**
+ * Builds a Zod validation chain for fields with predefined options (select, radio).
+ * @param {string[]} values - Array of allowed option values
+ * @param {string} requiredMessage - Error message for missing required field
+ * @param {string} invalidMessage - Error message for invalid selection
+ * @param {boolean} required - Whether the field is required
+ * @returns {string} The generated Zod validation string
+ */
 export function buildZodOptionString(values: string[], requiredMessage: string, invalidMessage: string, required: boolean) {
   const base = `z.string({
     error: (issue) => issue.input === undefined ? ${q(requiredMessage)} : ${q(invalidMessage)}
@@ -219,6 +289,14 @@ export function buildZodOptionString(values: string[], requiredMessage: string, 
   return inner;
 }
 
+/**
+ * Builds a Yup validation chain for fields with predefined options.
+ * @param {string[]} values - Array of allowed option values
+ * @param {string} requiredMessage - Error message for missing required field
+ * @param {string} invalidMessage - Error message for invalid selection
+ * @param {boolean} required - Whether the field is required
+ * @returns {string} The generated Yup validation string
+ */
 export function buildYupOptionString(values: string[], requiredMessage: string, invalidMessage: string, required: boolean) {
   const parts: string[] = [`.trim()`];
 

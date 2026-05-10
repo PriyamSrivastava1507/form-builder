@@ -11,6 +11,15 @@ type UserTemplateListItemProps = {
     setTemplates: (templates: TemplateCollectionParsed) => void;
 }
 
+/**
+ * @component
+ * Renders a single row for a user-saved template in the list.
+ * Clicking it loads the saved template into the builder.
+ * @param {UserTemplateListItemProps} props - Component props
+ * @param {string} props.templateName - The name of the saved template
+ * @param {TemplateParsedType} props.templateData - The parsed template data containing fields and last modified date
+ * @param {(templates: TemplateCollectionParsed) => void} props.setTemplates - Function to update the parent templates state
+ */
 const UserTemplateListItem = ({templateName, templateData, setTemplates}: UserTemplateListItemProps) => {
   const setFields = useFormStore((state)=>state.setFields);
   const navigate = useNavigate();

@@ -11,6 +11,12 @@ type BuilderToolBarProps = {
   setOpenModal: (openModal: boolean) => void;
 }
 
+/**
+ * @component
+ * Toolbar for the form builder containing actions like save, preview, undo, redo, reset, and delete.
+ * @param {BuilderToolBarProps} props - Component props
+ * @param {(openModal: boolean) => void} props.setOpenModal - Function to open the save modal
+ */
 const BuilderToolBar = ({setOpenModal}: BuilderToolBarProps) => {
 
   const navigate = useNavigate();

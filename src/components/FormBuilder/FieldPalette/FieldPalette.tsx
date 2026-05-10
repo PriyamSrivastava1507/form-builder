@@ -8,8 +8,9 @@ type FieldPaletteProps = {
 
 /**
  * @component
+ * Renders the sidebar containing all available form fields grouped by category.
  * @param {FieldPaletteProps} props - Component props
- * Renders the sidebar containing all available form fields grouped by category
+ * @param {(field: FieldSchema) => void} props.addField - Function to add a new field to the canvas
  */
 const FieldPalette = ({ addField }: FieldPaletteProps) => {
   return (

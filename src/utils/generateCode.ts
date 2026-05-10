@@ -9,13 +9,21 @@ import { generateZodObjectSchema } from "@/generators/zodSchema/generateZodSchem
 import type { FieldSchema } from "@/types/field";
 import type { LanguageOptions, LibraryOptions } from "@/types/output";
 
+/**
+ * Options required to generate code for the selected output tab
+ */
 type CodeOption = {
-    currentTab: "schema" | "form" | "json" | "full-code";
-    fields: FieldSchema[];
-    language: LanguageOptions;
-    library: LibraryOptions;
+    currentTab: "schema" | "form" | "json" | "full-code"; // The active output tab
+    fields: FieldSchema[];                                // Form schema fields
+    language: LanguageOptions;                            // Selected programming language
+    library: LibraryOptions;                              // Selected library stack
 }
 
+/**
+ * Generates the required code string based on the active tab, library, and language.
+ * @param {CodeOption} options - Configuration options for code generation
+ * @returns {string} The generated code or JSON string
+ */
 export const generateCode = ({currentTab,fields,language,library}: CodeOption):string=>{
     const isTs: boolean = language === "TypeScript";
     let generatedCode: string = "";

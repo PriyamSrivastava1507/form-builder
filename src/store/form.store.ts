@@ -20,6 +20,10 @@ export type FormStore = {
 
   // ── Actions ────────────────────────────────────────────
 
+  /**
+   * Sets the entire list of fields at once.
+   * @param {FieldSchema[]} fields - The new array of fields
+   */
   setFields: (fields: FieldSchema[]) => void;
   /**
    * Appends a new field to the end of the canvas.
@@ -62,6 +66,10 @@ export type FormStore = {
    */
   setSelectedField: (id: string | null) => void;
 
+  /**
+   * Sets the global name for the form being built.
+   * @param {string} name - The new form name
+   */
   setFormName: (name: string) => void;
 
   /**

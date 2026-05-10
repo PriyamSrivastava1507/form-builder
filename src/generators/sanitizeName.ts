@@ -1,6 +1,8 @@
 /**
  * Sanitizes a field name into a valid camelCase JavaScript identifier.
  * If the name is empty, generates a short UUID-based fallback.
+ * @param {string} name - Raw field name
+ * @returns {string} Sanitized valid identifier name
  */
 export function sanitizeName(name: string): string {
   const trimmed = name.trim();

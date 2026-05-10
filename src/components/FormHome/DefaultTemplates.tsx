@@ -3,6 +3,11 @@ import DefaultTemplatesItem from "./DefaultTemplatesItem"
 import { PREDEFINED_TEMPLATES } from "@/constants/templates"
 import { useNavigate } from "react-router"
 
+/**
+ * @component
+ * Displays the list of predefined default templates on the home page.
+ * Renders the top two most used templates and provides a link to view all.
+ */
 const DefaultTemplates = () => {
   const navigate = useNavigate();
   const mostUsed = PREDEFINED_TEMPLATES.slice(0, 2);

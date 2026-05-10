@@ -10,7 +10,8 @@ import { RestrictToElement } from "@dnd-kit/dom/modifiers";
 
 /**
  * @component
- * Renders the main canvas area where form fields are dropped and arranged
+ * Renders the main canvas area where form fields are dropped and arranged.
+ * Manages drag-and-drop state, keyboard navigation for field selection, and renders the list of `FieldCanvasCard` components.
  */
 const FieldCanvas = () => {
   const containerRef = useRef<HTMLDivElement>(null);

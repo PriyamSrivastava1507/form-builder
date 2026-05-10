@@ -10,6 +10,17 @@ type FormSaveButtonProps = {
     disabled: boolean;
 }
 
+/**
+ * @component
+ * A reusable save button component that handles saving form templates to local storage.
+ * Opens a modal if a template with the same name already exists.
+ * @param {FormSaveButtonProps} props - Component props
+ * @param {string} props.formName - Name of the form to save
+ * @param {string} props.className - Additional CSS classes
+ * @param {(openModal: boolean) => void} props.setOpenModal - Function to open the overwrite confirmation modal
+ * @param {React.ReactNode} props.children - Child elements (e.g., icon)
+ * @param {boolean} props.disabled - Whether the button is disabled
+ */
 const FormSaveButton = ({ formName, className, setOpenModal, children, disabled }: FormSaveButtonProps) => {
    const handleSave = () => {
     if(!localStorage.getItem("templates")){

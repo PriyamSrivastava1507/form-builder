@@ -5,6 +5,12 @@ type OutputCodeHeadingProps = {
     currentTab: "schema" | "form" | "json" | "full-code";
 }
 
+/**
+ * @component
+ * Displays the heading above the generated code, indicating the selected language, library, and component type.
+ * @param {OutputCodeHeadingProps} props - Component props
+ * @param {"schema" | "form" | "json" | "full-code"} props.currentTab - The currently active output tab
+ */
 const OutputCodeHeading = ({currentTab}: OutputCodeHeadingProps) => {
     const language = useOutputFormatStore((state)=>state.language);
     const library = useOutputFormatStore((state)=>state.library);

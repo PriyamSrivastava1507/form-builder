@@ -207,6 +207,11 @@ export function rhfRange(field: RangeField): string {
   <br/>`;
 }
 
+/**
+ * Generates the React Hook Form JSX markup for a single form field based on its type.
+ * @param {FieldSchema} field - The form field configuration
+ * @returns {string} The generated React Hook Form JSX string for the field
+ */
 export function generateRHFField(field: FieldSchema): string {
   switch (field.type) {
     case "text":

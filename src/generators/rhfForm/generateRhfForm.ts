@@ -2,6 +2,13 @@ import type { FieldSchema } from "@/types/field";
 import { collectDefaultValues } from "../colledDefault";
 import { generateRHFField } from "./rhfGenerators";
 
+/**
+ * Generates a React Hook Form component using Zod for validation.
+ * @param {FieldSchema[]} fields - The form fields schema
+ * @param {string} schemaName - The validation schema variable name
+ * @param {boolean} isTS - Whether to output TypeScript
+ * @returns {string} The generated React component code
+ */
 export function generateRHFForm(fields: FieldSchema[], schemaName: string, isTS: boolean): string {
   const defaultValues = collectDefaultValues(fields, 4, isTS);
   const fieldsStr = fields.map(generateRHFField).join("\n");
@@ -34,6 +41,13 @@ export default function GeneratedForm() {
 }`;
 }
 
+/**
+ * Generates a React Hook Form component using Yup for validation.
+ * @param {FieldSchema[]} fields - The form fields schema
+ * @param {string} schemaName - The validation schema variable name
+ * @param {boolean} isTS - Whether to output TypeScript
+ * @returns {string} The generated React component code
+ */
 export function generateRHFYupForm(fields: FieldSchema[], schemaName: string, isTS: boolean): string {
   const defaultValues = collectDefaultValues(fields, 4, isTS);
   const fieldsStr = fields.map(generateRHFField).join("\n");

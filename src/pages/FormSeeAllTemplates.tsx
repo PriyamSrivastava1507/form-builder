@@ -1,6 +1,10 @@
 import { TEMPLATE_CATEGORIES, getTemplatesByCategory } from "@/constants/templates";
 import DefaultTemplatesItem from "@/components/FormHome/DefaultTemplatesItem";
 
+/**
+ * @component
+ * Renders the page displaying all predefined default templates grouped by category.
+ */
 const FormSeeAllTemplates = () => {
   return (
     <div className="w-full h-[calc(100vh-var(--spacing-navbar))] p-8 max-w-7xl mx-auto overflow-y-auto custom-scrollbar pb-24">

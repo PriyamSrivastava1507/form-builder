@@ -2,6 +2,10 @@ import FormatTabList from "@/components/FormOutput/FormatTabList";
 import OutputCodeContainer from "@/components/FormOutput/OutputCodeContainer/OutputCodeContainer";
 import { useState } from "react";
 
+/**
+ * @component
+ * Renders the preview page for viewing the form schema output in full-width.
+ */
 const FormPreviewPage = () => {
   const [currentTab, setCurrentTab] = useState<"schema" | "form" | "json" | "full-code">("schema");
   return (

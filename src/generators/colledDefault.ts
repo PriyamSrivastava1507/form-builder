@@ -2,6 +2,15 @@ import type { FieldSchema } from "@/types/field";
 import { asKey, q } from "./schemaHelper";
 import { sanitizeName } from "./sanitizeName";
 
+/**
+ * Generates a stringified object literal representing the default values for an array of fields.
+ * Extracted values are typed based on field type and whether the output is TypeScript.
+ *
+ * @param {FieldSchema[]} fields - Array of fields to extract default values from.
+ * @param {number} [indent=4] - Number of spaces to indent the generated object entries.
+ * @param {boolean} [isTS=false] - Whether to generate TypeScript specific syntax (e.g. `as string`).
+ * @returns {string} Stringified code for the default values object.
+ */
 export function collectDefaultValues(fields: FieldSchema[], indent: number = 4, isTS: boolean = false): string {
   const entries: string[] = [];
 

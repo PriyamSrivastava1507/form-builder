@@ -9,8 +9,10 @@ type FieldPaletteGroupProps = {
 
 /**
  * @component
+ * Renders a specific category group of form fields in the palette (e.g., "Text Fields").
  * @param {FieldPaletteGroupProps} props - Component props
- * Renders a specific category group of form fields in the palette
+ * @param {PaletteGroupConfig} props.group - The configuration object for the group
+ * @param {(field: FieldSchema) => void} props.addField - Function to add a new field to the canvas
  */
 const FieldPaletteGroup = ({ group, addField }: FieldPaletteGroupProps) => {
   const { label, items } = group;

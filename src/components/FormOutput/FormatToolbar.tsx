@@ -12,6 +12,13 @@ type FormatToolbarProps = {
   currentTab: "schema" | "form" | "json" | "full-code";
 }
 
+/**
+ * @component
+ * Toolbar providing actions for the output code like Save, Copy, and Download.
+ * Actions are enabled/disabled based on the currently selected tab.
+ * @param {FormatToolbarProps} props - Component props
+ * @param {"schema" | "form" | "json" | "full-code"} props.currentTab - The currently active output tab
+ */
 const FormatToolbar = ({currentTab}: FormatToolbarProps) => {
   const fields = useFormStore((state)=>state.fields)
   const language = useOutputFormatStore((state) => state.language);

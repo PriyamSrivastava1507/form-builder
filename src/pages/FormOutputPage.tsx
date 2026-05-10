@@ -3,6 +3,11 @@ import FormatToolbar from "@/components/FormOutput/FormatToolbar"
 import OutputCodeContainer from "@/components/FormOutput/OutputCodeContainer/OutputCodeContainer"
 import { useState } from "react";
 
+/**
+ * @component
+ * Renders the page displaying the generated form code and schema output.
+ * Manages the current active tab (schema, form, json, full-code).
+ */
 const FormOutputPage = () => {
   const [currentTab, setCurrentTab] = useState<"schema" | "form" | "json" | "full-code">("schema");
   return (

@@ -24,6 +24,13 @@ type OutputCodeProps = {
     currentTab: "schema" | "form" | "json" | "full-code";
 }
 
+/**
+ * @component
+ * Renders the generated code using syntax highlighting.
+ * Generates the appropriate code string based on the selected library, language, and tab.
+ * @param {OutputCodeProps} props - Component props
+ * @param {"schema" | "form" | "json" | "full-code"} props.currentTab - The currently active output tab
+ */
 const OutputCode = ({ currentTab }: OutputCodeProps) => {
     const fields = useFormStore((state)=>state.fields)
     const language = useOutputFormatStore((state) => state.language);

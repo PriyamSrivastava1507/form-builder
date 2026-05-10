@@ -243,6 +243,11 @@ export function yupRange(field: RangeField) {
   return `  ${asKey(sanitizeName(field.name))}: ${schema},`;
 }
 
+/**
+ * Generates the specific Yup validation chain for a single form field based on its type.
+ * @param {FieldSchema} field - The form field configuration
+ * @returns {string} The generated Yup validation string entry
+ */
 export function generateYupField(field: FieldSchema): string {
   switch (field.type) {
     case "text":

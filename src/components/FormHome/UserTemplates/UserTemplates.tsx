@@ -5,6 +5,11 @@ import { ArrowDownAZIcon, ArrowUpAZIcon } from "lucide-react";
 import UserTemplateListItem from "./UserTemplateListItem";
 import type { TemplateCollectionParsed } from "@/types/output";
 
+/**
+ * @component
+ * Displays the list of user-saved templates retrieved from local storage.
+ * Provides functionality to sort templates by Date Modified or Name, and filters based on search query.
+ */
 const UserTemplates = () => {
   const [sortOption, setSortOption] = useState<"Date Modified" | "Name">("Date Modified");
   const [sortOrder, setSortOrder] = useState<"ascending" | "descending">("descending");

@@ -2,6 +2,14 @@ import { useFormStore } from "@/store/form.store";
 import { useNavigate } from "react-router";
 import type { Template } from "@/constants/templates";
 
+/**
+ * @component
+ * Renders an individual default template card.
+ * Clicking it loads the template's fields into the form builder.
+ * @param {Object} props - Component props
+ * @param {Template} props.template - The predefined template data
+ * @param {string} [props.className] - Optional CSS classes for styling
+ */
 const DefaultTemplatesItem = ({template, className}: {template: Template, className?: string}) => {
   const navigate = useNavigate();
   const clearFields = useFormStore((state) => state.clearFields);

@@ -7,7 +7,8 @@ import ValidationSection from "./ValidationSection/ValidationSection";
 
 /**
  * @component
- * Renders the properties panel for configuring the currently selected field
+ * Renders the properties panel for configuring the currently selected field.
+ * Dynamically displays settings like basic info, options, default values, and validation based on the selected field's type.
  */
 const FieldPropertyPane = () => {
     const fields = useFormStore(state=>state.fields);

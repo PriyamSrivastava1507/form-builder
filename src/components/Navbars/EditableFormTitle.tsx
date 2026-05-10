@@ -6,6 +6,13 @@ type EditableFormTitleProps = {
     currentPage: "home" | "builder" | "format-selection" | "output" | "preview" | "see-all-page";
 }
 
+/**
+ * @component
+ * An editable title for the form that appears in the navbar.
+ * Displays as static text on the home page and an input field elsewhere.
+ * @param {EditableFormTitleProps} props - Component props
+ * @param {"home" | "builder" | "format-selection" | "output" | "preview" | "see-all-page"} props.currentPage - The current active page
+ */
 const EditableFormTitle = ({currentPage}: EditableFormTitleProps) => {
 
   const formName = useFormStore((state) => state.formName);

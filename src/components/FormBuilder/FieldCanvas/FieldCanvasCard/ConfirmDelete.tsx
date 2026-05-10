@@ -5,6 +5,14 @@ type ConfirmDeleteProps = {
     onDelete: () => void;
 }
 
+/**
+ * @component
+ * Displays a confirmation dialog within a field card before deleting it.
+ * Supports keyboard shortcuts (Enter to confirm, Escape to cancel).
+ * @param {ConfirmDeleteProps} props - Component props
+ * @param {(confirmDelete: boolean) => void} props.setConfirmDelete - Function to cancel deletion
+ * @param {() => void} props.onDelete - Function to execute the deletion
+ */
 const ConfirmDelete = ({setConfirmDelete, onDelete}: ConfirmDeleteProps) => {
     const onDeleteRef = useRef(onDelete);
     const setConfirmDeleteRef = useRef(setConfirmDelete);

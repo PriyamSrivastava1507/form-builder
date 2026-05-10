@@ -17,6 +17,19 @@ type FieldCanvasCardProps = {
     onDuplicate: () => void;
 }
 
+/**
+ * @component
+ * Represents a single draggable field card on the canvas.
+ * Handles selection, update, deletion, duplication, and drag-and-drop interactions.
+ * @param {FieldCanvasCardProps} props - Component props
+ * @param {FieldSchema} props.field - The schema data for the field
+ * @param {number} props.index - The index of the field in the canvas array
+ * @param {boolean} props.isSelected - Whether the field is currently selected
+ * @param {() => void} props.onSelect - Function to mark the field as selected
+ * @param {(changes: Partial<DistributiveOmit<FieldSchema, 'id' | 'type'>>) => void} props.onUpdate - Function to update the field schema
+ * @param {() => void} props.onDelete - Function to delete the field
+ * @param {() => void} props.onDuplicate - Function to duplicate the field
+ */
 const FieldCanvasCard = ({field, index, isSelected, onSelect, onUpdate, onDelete, onDuplicate}: FieldCanvasCardProps) => {
 
     const [confirmDelete, setConfirmDelete] = useState<boolean>(false);

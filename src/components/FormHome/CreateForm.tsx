@@ -2,6 +2,11 @@ import { useFormStore } from "@/store/form.store"
 import { PlusIcon } from "lucide-react"
 import { useNavigate } from "react-router"
 
+/**
+ * @component
+ * Renders the "Create A New Form" card on the home page.
+ * Clicking it resets the form store to start a fresh form.
+ */
 const CreateForm = () => {
   const navigate = useNavigate()
   const clearFields = useFormStore((state)=>state.clearFields)

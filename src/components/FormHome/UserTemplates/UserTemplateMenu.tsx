@@ -15,6 +15,14 @@ type UserTemplateMenuType = {
     templateName: string;
 }
 
+/**
+ * @component
+ * Dropdown menu for user template items, providing actions to rename or delete the template.
+ * Manages the state for rename and delete modals.
+ * @param {UserTemplateMenuType} props - Component props
+ * @param {(templates: TemplateCollectionParsed) => void} props.setTemplates - Function to update the template list state after modification
+ * @param {string} props.templateName - The name of the template being modified
+ */
 const UserTemplateMenu = ({setTemplates, templateName}: UserTemplateMenuType) => {
   const [isRenameModalOpen,setIsRenameModalOpen]=useState(false)
   const [isDeleteModalOpen,setIsDeleteModalOpen]=useState(false)

@@ -8,6 +8,15 @@ type RepositionSectionProps = {
     fieldsLength: number;
 }
 
+/**
+ * @component
+ * Provides UI controls in the properties pane to manually reposition a field on the canvas.
+ * Allows moving the field up, down, or to a specific numeric position.
+ * @param {RepositionSectionProps} props - Component props
+ * @param {string} props.selectedId - The ID of the selected field
+ * @param {number} props.selectedIndex - The current index of the selected field
+ * @param {number} props.fieldsLength - The total number of fields on the canvas
+ */
 const RepositionSection = ({selectedId, selectedIndex, fieldsLength}: RepositionSectionProps) => {
 
   const reorderFields = useFormStore(state=>state.reorderFields);

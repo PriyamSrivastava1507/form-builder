@@ -7,8 +7,9 @@ type FieldInfoSectionProps = {
 
 /**
  * @component
+ * Renders information about the selected field, including its name and type in the properties pane.
  * @param {FieldInfoSectionProps} props - Component props
- * Renders information about the selected field, including its name and type
+ * @param {FieldSchema} props.selectedField - The currently selected field schema
  */
 const FieldInfoSection = ({ selectedField }: FieldInfoSectionProps) => {
   return (

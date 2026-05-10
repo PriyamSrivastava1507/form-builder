@@ -7,6 +7,14 @@ type FormatTabListProps = {
 }
 
 
+/**
+ * @component
+ * Tab navigation list to toggle between different output views (schema, form, json, full-code).
+ * @param {FormatTabListProps} props - Component props
+ * @param {"schema" | "form" | "json" | "full-code"} props.currentTab - The currently active tab
+ * @param {(tab: "schema" | "form" | "json" | "full-code") => void} props.setCurrentTab - Function to update the active tab
+ * @param {boolean} [props.fullWidth] - Whether the tab list should span the full width of its container
+ */
 const FormatTabList = ({currentTab, setCurrentTab, fullWidth}: FormatTabListProps) => {
   return (
     <div

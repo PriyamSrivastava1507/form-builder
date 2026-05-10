@@ -10,8 +10,10 @@ type FieldPaletteItemProps = {
 
 /**
  * @component
+ * Renders an individual draggable/clickable field item within the palette.
  * @param {FieldPaletteItemProps} props - Component props
- * Renders an individual draggable field item within the palette
+ * @param {PaletteItemConfig} props.item - The configuration data for the individual palette item
+ * @param {(field: FieldSchema) => void} props.addField - Function to add the selected field to the canvas
  */
 const FieldPaletteItem = ({ item, addField }: FieldPaletteItemProps) => {
   const handleClick: MouseEventHandler<HTMLButtonElement> = ()=>{
