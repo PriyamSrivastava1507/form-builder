@@ -1,208 +1,275 @@
-# Form Builder
+<div align="center">
+  <h1>Codiform</h1>
+  <p><strong>Build React forms visually. Generate production-ready code instantly.</strong></p>
 
-Form Builder is an advanced, visual drag-and-drop utility designed specifically for developers. It provides a graphical interface to quickly design and construct complex form structures. As you build, the application instantly generates production-ready **React Hook Form** code combined with robust **Zod** validation schemas. The generated output is designed to be pasted directly into any React application, drastically reducing development time on boilerplate form setup.
+  <p>
+    <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React" />
+    <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="License MIT" />
+  </p>
+</div>
+
+<br />
+
+<div align="center">
+  <video src="./public/demo.mp4" poster="./public/screenshots/01-home.png" controls width="100%"></video>
+  <p><em>Watch the demo of Codiform in action.</em></p>
+</div>
 
 ---
+
+Codiform is a visual form builder for React developers. Users drag and drop field types onto a canvas, configure validations and default values in a properties panel, and generate production-ready React form code with one click.
+
+The generated output is ready to be pasted directly into any React application. This drastically reduces development time on boilerplate form setup.
+
+## Screenshots
+
+<div align="center">
+  <img src="./public/screenshots/01-home.png" alt="Home page" width="32%" />
+  <img src="./public/screenshots/02-builder.png" alt="Builder canvas" width="32%" />
+  <img src="./public/screenshots/03-preview.png" alt="Preview page" width="32%" />
+  <img src="./public/screenshots/04-schema.png" alt="Schema output" width="32%" />
+  <img src="./public/screenshots/05-form.png" alt="Form component output" width="32%" />
+  <img src="./public/screenshots/06-json.png" alt="JSON output" width="32%" />
+  <img src="./public/screenshots/07-full-code.png" alt="Full code output" width="32%" />
+  <img src="./public/screenshots/08-replace-modal.png" alt="Replace template modal" width="32%" />
+  <img src="./public/screenshots/09-delete-modal.png" alt="Delete form modal" width="32%" />
+</div>
 
 ## Features
 
-- **Visual Form Canvas**: A highly interactive, strictly typed drag-and-drop workspace using `@dnd-kit`.
-- **Real-Time Code Generation**: Instantly produces valid React Hook Form markup (`useForm`, `<Controller>`, `register` calls).
-- **Zod Schema Generation**: Automatically infers and constructs Zod validation schemas based on field types, validations (e.g., max length, patterns), and required states.
-- **Comprehensive Field Types**:
-  - **Text Inputs**: Plain text, email, password, number, tel, and URL.
-  - **Selection Controls**: Select dropdowns, Radio groups, Checkboxes (single & group), and Toggle Switches.
-  - **Advanced Inputs**: Textareas, Date pickers, File uploads, and Range sliders.
-- **Granular Customization**: Define custom placeholders, default values, labels, and specific HTML attributes per field.
-- **Robust State Management**: Powered by Zustand, with built-in Undo/Redo historical tracking provided by Zundo.
+### Builder
+* **Visual Drag and Drop**: Highly interactive workspace powered by `@dnd-kit/react`.
+* **Keyboard Navigation**: Move between canvas cards using arrow keys.
+* **Undo/Redo**: Full history tracking (Ctrl+Z / Ctrl+Y) using `zundo`.
+* **Properties Panel**: Configure fields precisely, with positional controls (move up/down, jump to position).
+* **Ghost HTML Preview**: View the HTML structure of the field directly on each canvas card.
+* **Editable Form Title**: Google Docs-style inline title editing.
 
----
+### Code Generation
+* **Multiple Output Formats**: Supports 6 different library combinations.
+* **Language Toggle**: Output in TypeScript or plain JavaScript.
+* **Syntax Highlighting**: Custom Palenight-inspired dark theme for code output using Prism.
+* **One-Click Export**: Copy to clipboard and file download capabilities per tab.
+
+### Templates
+* **Save as Template**: Store reusable templates in `localStorage` with a replacement confirmation modal.
+* **Predefined Templates**: 13 out-of-the-box templates covering Personal, Work, Education, Health, and E-commerce use cases.
+* **JSON Import/Export**: Seamlessly transfer form schemas between environments.
+
+### UX & Polish
+* **Mobile/Tablet Landing Page**: Desktop blocker featuring a showcase for non-supported devices.
+* **Toast Notifications**: Interactive and elegant feedback via `sonner`.
 
 ## Tech Stack
 
-- **Framework**: [React 19](https://react.dev/) with [Vite](https://vitejs.dev/)
-- **Language**: [TypeScript](https://www.typescriptlang.org/) (\~5.9.3)
-- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
-- **State Management**: [Zustand](https://github.com/pmndrs/zustand)
-- **Time Travel (Undo/Redo)**: [Zundo](https://github.com/charkour/zundo)
-- **Drag & Drop**: [@dnd-kit](https://dndkit.com/)
-- **UI Components**: [shadcn/ui](https://ui.shadcn.com/) (using Radix Primitives)
-- **Icons**: [Lucide React](https://lucide.dev/)
+| Category | Technology |
+| :--- | :--- |
+| **Frontend** | React 19, TypeScript 5.9, Vite 7 |
+| **Styling** | Tailwind CSS v4, shadcn/ui (Radix UI primitives) |
+| **State Management** | Zustand 5 with `zundo` temporal middleware |
+| **Routing** | React Router v7 |
+| **Drag and Drop** | `@dnd-kit/react` (new API) |
+| **Syntax Highlighting** | `react-syntax-highlighter` (Prism, custom theme) |
+| **Icons & Typography** | `lucide-react`, Inter Variable, JetBrains Mono |
+| **Components** | `sonner` (Toasts), shadcn/ui Calendar + Popover |
+| **Target Libraries** | `react-hook-form`, `formik`, `zod`, `yup` |
 
----
+## Field Types Supported
+
+Codiform supports 15 distinct field types across various categories.
+
+| Category | Field Type | Subtype / Options |
+| :--- | :--- | :--- |
+| **Text Inputs** | `text` | text, number, email, password, tel, url, textarea |
+| **Choices** | `select` | Single and multiselect |
+| | `radioGroup` | Options array |
+| | `checkbox` | Single boolean |
+| | `checkboxGroup` | Options array |
+| **Other** | `date` | minDate, maxDate |
+| | `file` | minSize, maxSize, acceptMimeTypes, acceptExtensions |
+| | `range` | min, max, step |
+
+Each field offers comprehensive configurations, including:
+* Mapping to form library registers (e.g., RHF `register` name)
+* Label and placeholder customization
+* Required and disabled flags
+* Type-specific validations with custom error messages (e.g., `minLength`, `maxLength`, regex patterns for text; `min`, `max`, `positive`, `integer` for numbers)
+* Default value configuration
+
+## Supported Output Combinations
+
+| Library Combination | Schema Library | Language Support |
+| :--- | :--- | :--- |
+| React Hook Form | Zod | TypeScript, JavaScript |
+| React Hook Form | Yup | TypeScript, JavaScript |
+| Formik | Zod | TypeScript, JavaScript |
+| Formik | Yup | TypeScript, JavaScript |
+| None (Schema Only) | Zod | TypeScript, JavaScript |
+| None (Schema Only) | Yup | TypeScript, JavaScript |
 
 ## Getting Started
 
 ### Prerequisites
-
-Ensure you have Node.js (v20+) installed. The project relies on recent Node and React features.
+* Node.js 18+
+* npm or pnpm
 
 ### Installation
 
-1. **Clone the repository:**
+1. Clone the repository:
+```bash
+git clone https://github.com/PriyamSrivastava1507/form-builder.git
+cd form-builder
+```
 
-   ```bash
-   git clone <repository_url>
-   cd form-generator
-   ```
+2. Install dependencies:
+```bash
+npm install
+```
 
-2. **Install dependencies:**
+3. Start the development server:
+```bash
+npm run dev
+```
 
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server:**
-
-   ```bash
-   npm run dev
-   ```
-
-4. **Build for production:**
-   ```bash
-   npm run build
-   ```
-
----
+4. Build for production:
+```bash
+npm run build
+```
 
 ## Project Structure
 
-A breakdown of the project directories to help you orient yourself:
+```text
+src/
+  assets/
+  components/
+    FieldCanvas/
+      FieldCanvasCard/
+        Body.tsx
+        Handle.tsx
+        Toolbar.tsx
+        ConfirmDelete.tsx
+        index.ts
+      FieldCanvas.tsx
+      index.ts
+    FieldPalette/
+      FieldPalette.tsx
+      index.ts
+    PropertyPane/
+      sections/
+        DefaultValueSection/
+        ValidationSection/
+        RepositionSection/
+        OptionsSection/
+      FieldPropertyPane.tsx
+      index.ts
+    MobileLanding/
+      MobileLanding.tsx
+    ui/
+      Modal.tsx
+      Switch.tsx
+      (shadcn components)
+  constants/
+    fieldDefaults.ts
+    fieldPalette.ts
+    templates/
+      index.ts
+  generators/
+    zodSchemaGenerators.ts
+    yupSchemaGenerators.ts
+    rhfGenerators.ts
+    formikGenerators.ts
+    colledDefault.ts
+    schemaHelper.ts
+    sanitizeName.ts
+    generateCode.ts
+  hooks/
+    useDebounceCallback.ts
+    useGeneratedCode.ts
+  pages/
+    FormRootPage.tsx
+    FormBuilderPage.tsx
+    FormOutputPage.tsx
+    FormPreviewPage.tsx
+    FormSeeAllTemplates.tsx
+  store/
+    form.store.ts
+    output.store.ts
+  types/
+    field.ts
+    fieldValidation.ts
+    palette.ts
+  layouts/
+    RootLayout.tsx
+  main.tsx
+```
+
+## Architecture Notes
+
+* **Zustand with zundo**: We chose Zustand for its minimal boilerplate and direct state manipulation. Combining it with `zundo` provides undo/redo capabilities out of the box, which is essential for a visual builder.
+* **Discriminated Union for FieldSchema**: Ensuring type safety across 15 distinct field types is challenging. A discriminated union allows the TypeScript compiler to statically verify that a `NumberField` cannot accidentally receive `maxLength` validation intended for a `TextField`.
+* **Pure String Template Functions**: The code generator purposely avoids AST (Abstract Syntax Trees) or `eval()`. Instead, it uses pure string template functions. This makes the generation pipeline incredibly fast, highly predictable, and significantly easier to debug.
+* **dnd-kit new API**: The application leverages the newer `@dnd-kit/react` API rather than `@dnd-kit/core`. This optimizes for modern React paradigms and provides a smoother drag-and-drop experience.
+* **Desktop Only**: The interface relies on a multi-panel layout and complex drag-and-drop interactions that are fundamentally unsuited for mobile touchscreens. We enforce a desktop-only view to maintain a high-quality developer experience.
+
+## Code Generation Architecture
+
+The code generator follows a strict, predictable pipeline:
 
 ```text
-form-generator/
-├── src/
-│   ├── components/         # UI Elements & Canvas workspace
-│   │   ├── FieldCanvas/    # Drag & Drop canvas cards
-│   │   └── ui/             # shadcn/ui generic primitives
-│   ├── constants/          # App constants & configurations
-│   ├── hooks/              # Reusable React hooks
-│   ├── lib/                # 3rd party configurations (Tailwind, Zod)
-│   ├── pages/              # Top-level route components
-│   ├── store/              # Zustand app state (form.store.ts)
-│   ├── types/              # TS Schemas (field.ts, validations.ts)
-│   └── utils/              # Helper functions
-├── package.json            # Dependencies & Scripts
-├── tailwind.config.ts      # Tailwind configuration
-├── vite.config.ts          # Vite build configuration
-└── README.md
+[Field Configs]
+      │
+      ▼
+[sanitizeName]
+      │
+      ▼
+[Schema Template Functions]  <-->  [Form Template Functions]
+      │                                    │
+      ▼                                    ▼
+[collectDefaultValues]             [Field Components]
+      │                                    │
+      └───────────────┬────────────────────┘
+                      ▼
+               [generateCode]
+                      │
+                      ▼
+                [Output Tabs]
 ```
 
-- `/src/components` — Reusable, atomic UI elements. Contains the `FieldCanvas` module (handling individual draggable cards) and generic inputs.
-- `/src/constants` — Application-wide constants, default configurations, and structural mappings.
-- `/src/hooks` — Custom React hooks encapsulating specific logic (e.g., theme, focus management).
-- `/src/lib` — Integrations and system configuration (e.g., Tailwind merge utilities, Shadcn setups).
-- `/src/pages` — High-level route components and layout definitions.
-- `/src/store` — Core application state. This relies on `form.store.ts` for schema modeling and history tracking.
-- `/src/types` — Comprehensive TypeScript abstractions, primarily defining the `FieldSchema` discriminated unions for airtight type safety.
-- `/src/utils` — Pure utility functions and formatters.
+1. **Field Configs**: The raw Zustand state array.
+2. **sanitizeName**: Ensures all field names map to valid JavaScript variable names.
+3. **Schema / Form Templates**: Generates the validation schemas and JSX markup concurrently based on the target libraries.
+4. **collectDefaultValues**: Extracts the specified defaults into a single object for form initialization.
+5. **generateCode**: Assembles the imports, schema, interfaces, form setup, and return JSX into a final, formatted string.
+6. **Output Tabs**: Renders the generated code into syntax-highlighted views.
 
----
+## Roadmap
 
-## Architecture & How It Works
+* [x] Formik + Zod output
+* [x] Formik + Yup output
+* [ ] Live preview of the actual form
+* [ ] More field types
+* [ ] Multi-step form support
+* [ ] Cloud sync
+* [ ] VS Code extension
 
-At the heart of the Form Builder is an explicit separation between the **Visual Canvas** and the **Code Generator**, bridged entirely by a central Zustand state.
+## Contributing
 
-### 1. State Management (`FormStore`)
+Contributions are welcome!
 
-The application state manages an ordered array of `FieldSchema` objects. Each schema represents a discriminated union type (e.g., `TextField`, `SelectField`), making it impossible to represent an invalid state inside the store.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-**Store Architecture**
+## License
 
-```text
-[ FormStore (Zustand) ]
- │
- ├── State
- │   ├── fields: FieldSchema[]      (The ordered list of fields on canvas)
- │   └── selectedId: string | null  (Currently focused field for editing)
- │
- ├── History (Zundo)
- │   ├── pastStates: FormStore[]    (Undo stack)
- │   └── futureStates: FormStore[]  (Redo stack)
- │
- └── Actions (Mutations)
-     ├── addField()                 (Appends to bottom of canvas)
-     ├── removeField()              (Deletes from canvas/clears focus)
-     ├── updateField()              (Partial edits, e.g. change label)
-     ├── reorderFields()            (Drag & drop sorting via splice)
-     └── setSelectedField()         (Changes active property panel focus)
-```
+Distributed under the MIT License.
 
-Mutations to this store are strictly controlled via actions. Partial updates use distributive omission to ensure that updating properties on a specific field subtype strictly respects TypeScript narrowed typing.
+## Author
 
-### 2. Data Model (`FieldSchema`)
-
-The entire form state is represented by an array of uniquely identifiable field configurations. The model relies heavily on a discriminated union.
-
-**Model Architecture**
-
-```text
-[ FieldSchema ] (Discriminated Union on 'type')
- │
- ├── type: 'text' (BaseTextField)
- │   ├── subtype: 'text'      (PlainTextField)
- │   ├── subtype: 'email'     (EmailTextField)
- │   ├── subtype: 'password'  (PasswordTextField)
- │   ├── subtype: 'number'    (NumberTextField)
- │   ├── subtype: 'tel'       (TelTextField)
- │   └── subtype: 'url'       (UrlTextField)
- │
- ├── type: 'textarea'         (TextareaField)
- ├── type: 'select'           (SelectField)
- ├── type: 'radio'            (RadioField)
- ├── type: 'checkbox'         (CheckboxField)
- ├── type: 'checkboxGroup'    (CheckboxGroupField)
- ├── type: 'date'             (DateField)
- ├── type: 'file'             (FileField)
- ├── type: 'range'            (RangeField)
- └── type: 'switch'           (SwitchField)
-
-[ Base Properties shared across all variants ]
-  » id: string           (UUID)
-  » label: string        (Display string)
-  » required: boolean    (Validation constraint)
-```
-
-### 3. Time Travel with Zundo
-
-Because building complex forms is an iterative process, `zundo` wraps the Zustand store. It is configured to capture diffs of the `fields` array only.
-
-```typescript
-export const useFormStore = create<FormStore>()(
-  temporal(createFormStore, {
-    partialize: (state) => ({ fields: state.fields }),
-  }),
-);
-```
-
-This isolates the permanent schematic data from transient UI states (like `selectedId`), preventing an undo action from accidentally changing panel focus without reverting the schema.
-
-### 4. Drag and Drop Interaction
-
-The workspace (`FormCanvas`) mounts `@dnd-kit`'s context to enable vertical list sorting. As a `FieldCanvasCard` is dragged and dropped, the `onDragEnd` event resolves the old and new DOM indices and pipes them to `reorderFields` in the store:
-
-```typescript
-// Conceptual reordering approach
-reorderFields: (fromIndex, toIndex) =>
-  set((state) => {
-    const newFields = [...state.fields];
-    const [movedField] = newFields.splice(fromIndex, 1);
-    newFields.splice(toIndex, 0, movedField);
-    return { fields: newFields };
-  });
-```
-
-### 5. Code Generation Engine
-
-When the user requests the final code, the generator iterates over the `fields` array.
-
-1. **Zod Generation:** Looks at the `FieldSchema.validations` and `required` boolean. It maps strings to `z.string()`, numbers to `z.coerce.number()`, and injects custom error messages.
-2. **React Generation:** Constructs markup, wrapping inputs in `react-hook-form`'s `<Controller>` (for complex inputs like Select and Radio) or direct `register` passes for standard primitives.
-
-### 6. Progress Screenshots
-
-Form Builder Page UI :
-![Form Builder Page UI](screenshots/formBuilder.png)
-
-Form Builder Page UI - Active Field :
-![Form Builder Page UI - Active Field](screenshots/formBuilder-act.png)
+**Priyam Srivastava**
+* GitHub: [@PriyamSrivastava1507](https://github.com/PriyamSrivastava1507)
+* LinkedIn: [Priyam Srivastava](#)
