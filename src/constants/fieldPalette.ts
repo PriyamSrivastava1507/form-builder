@@ -169,7 +169,11 @@ export const FIELD_DEFAULTS: FieldDefaults = {
             disabled: false,
             defaultValue: "",
             placeholder: "",
-            validations: {}
+            validations: {
+                minLength: {value: null, errorMessage: "Minimum length not met"},
+                maxLength: {value: null, errorMessage: "Maximum length not met"},
+                pattern: {value: "", errorMessage: "Pattern not matched"}
+            }
         },
         number: {
             name: "",
@@ -180,7 +184,12 @@ export const FIELD_DEFAULTS: FieldDefaults = {
             disabled: false,
             defaultValue: null,
             placeholder: "",
-            validations: {}
+            validations: {
+                min: {value: null, errorMessage: "Minimum value not met"},
+                max: {value: null, errorMessage: "Maximum value not met"},
+                integer: {value: false, errorMessage: "Must be an integer"},
+                positive: {value: false, errorMessage: "Must be a positive number"}
+            }
         },
         email: {
             name: "",
@@ -202,7 +211,11 @@ export const FIELD_DEFAULTS: FieldDefaults = {
             disabled: false,
             defaultValue: "",
             placeholder: "",
-            validations: {}
+            validations: {
+                minLength: {value: null, errorMessage: "Minimum length not met"},
+                maxLength: {value: null, errorMessage: "Maximum length not met"},
+                pattern: {value: "", errorMessage: "Pattern not matched"}
+            }
         },
         tel: {
             name: "",
@@ -213,7 +226,11 @@ export const FIELD_DEFAULTS: FieldDefaults = {
             disabled: false,
             defaultValue: "",
             placeholder: "",
-            validations: {}
+            validations: {
+                minLength: {value: null, errorMessage: "Minimum length not met"},
+                maxLength: {value: null, errorMessage: "Maximum length not met"},
+                pattern: {value: "", errorMessage: "Pattern not matched"}
+            }
         },
         url: {
             name: "",
@@ -235,7 +252,10 @@ export const FIELD_DEFAULTS: FieldDefaults = {
         disabled: false,
         defaultValue: "",
         placeholder: "",
-        validations: {}
+        validations: {
+            minLength: {value: null, errorMessage: "Minimum length not met"},
+            maxLength: {value: null, errorMessage: "Maximum length not met"}
+        }
     },
     select: {
         name: "",
@@ -244,6 +264,7 @@ export const FIELD_DEFAULTS: FieldDefaults = {
         required: false,
         disabled: false,
         multiselect: false,
+        size: 4,
         defaultValue: [],
         options: [],
         validations: {}
@@ -275,7 +296,10 @@ export const FIELD_DEFAULTS: FieldDefaults = {
         disabled: false,
         defaultValue: [],
         options: [],
-        validations: {}
+        validations: {
+            minSelected: {value: null, errorMessage: "Minimum selections not met"},
+            maxSelected: {value: null, errorMessage: "Maximum selections not met"}
+        }
     },
     date: {
         name: "",
@@ -284,7 +308,10 @@ export const FIELD_DEFAULTS: FieldDefaults = {
         required: false,
         disabled: false,
         defaultValue: "",
-        validations: {}
+        validations: {
+            minDate: {value: "", errorMessage: "Minimum date not met"},
+            maxDate: {value: "", errorMessage: "Maximum date not met"}
+        }
     },
     file: {
         name: "",
@@ -292,7 +319,12 @@ export const FIELD_DEFAULTS: FieldDefaults = {
         label: "File",
         required: false,
         disabled: false,
-        validations: {}
+        validations: {
+            minSize: {value: null, errorMessage: "Minimum size not met"},
+            maxSize: {value: null, errorMessage: "Maximum size exceeded"},
+            acceptMimeTypes: {value: [], errorMessage: "Mime type not accepted"},
+            acceptExtensions: {value: [], errorMessage: "Extension not accepted"}
+        }
     },
     range: {
         name: "",
@@ -302,9 +334,9 @@ export const FIELD_DEFAULTS: FieldDefaults = {
         disabled: false,
         defaultValue: null,
         validations: {
-            min: 0,
-            max: 100,
-            step: 1
+            min: {value: 0, errorMessage: "Minimum value not met"},
+            max: {value: 100, errorMessage: "Maximum value exceeded"},
+            step: {value: 1, errorMessage: "Step value not met"}
         }
     }
 };
