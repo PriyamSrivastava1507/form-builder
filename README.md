@@ -23,7 +23,7 @@
 
 Codiform is a visual form builder for React developers. Users drag and drop field types onto a canvas, configure validations and default values in a properties panel, and generate production-ready React form code with one click.
 
-The generated output is ready to be pasted directly into any React application. This drastically reduces development time on boilerplate form setup.
+The generated output code is ready to be pasted directly into any React application. This drastically reduces development time on boilerplate form setup.
 
 ## Screenshots
 
@@ -250,8 +250,7 @@ The code generator follows a strict, predictable pipeline:
 
 * [x] Formik + Zod output
 * [x] Formik + Yup output
-* [ ] Live preview of the actual form
-* [ ] More field types
+* [ ] More field types (such as FieldArray)
 * [ ] Multi-step form support
 * [ ] Cloud sync
 * [ ] VS Code extension
